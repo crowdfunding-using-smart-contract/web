@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+set -e
+
+wget -U "DockerHealthCheck" -O /dev/null -q http://localhost || exit 1

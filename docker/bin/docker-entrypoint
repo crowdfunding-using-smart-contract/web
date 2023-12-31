@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+set -e
+
+initialize_index() {
+  echo 'Generating index.html...'
+  cp /usr/share/nginx/html/index.tmpl.html /usr/share/nginx/html/index.html
+
+  echo 'Filling environment variables to index.html...'
+  sed -i -- "s={{VITE_API_ENDPOINT}}=$VITE_API_ENDPOINT=g" /usr/share/nginx/html/index.html
+}
+
+if [ "$1" = 'nginx' ]
+then
+  initialize_index
+fi
+
+echo 'All initialize process completed, starting Nginx proxy server...'
+exec "$@"
