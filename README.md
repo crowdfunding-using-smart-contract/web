@@ -1,5 +1,7 @@
 # FundO
 
+Crowdfunding systems that use blockchain technology typically involve a project creator setting a funding goal and backers contributing to the project using cryptocurrency
+
 ## Stack
 
 ![My Tech Stack](https://github-readme-tech-stack.vercel.app/api/cards?align=center&titleAlign=center&lineCount=4&theme=github_dark&hideTitle=true&line1=react,react,61DAFB;react-query,react-query,FF4500;&line3=typescript,typescript,3178C6;vite,vite,646CFF;&line2=zustand,zustand,64D5CA;axios,axios,4183C4;&line4=eslint,eslint,4B32C3;prettier,prettier,F7B93E;)
