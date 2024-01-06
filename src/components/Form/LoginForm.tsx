@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import { useAuthLoginMutation } from "@/services/query/auth.query";
 import type { LoginPayload } from "@/types/auth";
+import useAuthStore from "@/store/useAuthStore";
 
 const loginSchema = Yup.object().shape({
 	email: Yup.string().email("อีเมลไม่ถูกต้อง").required("กรุณากรอกอีเมล"),
@@ -11,6 +12,7 @@ const loginSchema = Yup.object().shape({
 
 export default function LoginForm() {
 	const { isPending, mutateAsync: login } = useAuthLoginMutation();
+	const { setIsAuthenticated } = useAuthStore();
 
 	const initialValues: LoginPayload = { email: "", password: "" };
 
@@ -19,9 +21,14 @@ export default function LoginForm() {
 			initialValues={initialValues}
 			validationSchema={loginSchema}
 			onSubmit={async (values, { setSubmitting }) => {
-				const res = await login(values);
-				console.log(res);
-				setSubmitting(false);
+				try {
+					const res = await login(values);
+					console.log(res);
+					setSubmitting(false);
+					setIsAuthenticated(true);
+				} catch (error) {
+					console.error("Fetch login error", error);
+				}
 			}}
 		>
 			{({ isSubmitting }) => (
