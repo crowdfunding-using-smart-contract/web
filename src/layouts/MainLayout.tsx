@@ -9,7 +9,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 	return (
 		<React.Fragment>
 			<NavigationBar />
-			{/* <main>{children}</main> */}
+			<main>{children}</main>
 		</React.Fragment>
 	);
 }
