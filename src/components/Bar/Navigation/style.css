@@ -1,0 +1,40 @@
+.navbar {
+	@apply fixed flex items-center justify-between w-full h-[70px] px-5 shadow-[0_5px_20px_0_rgba(11,7,110,.04)];
+}
+
+.btn-toggle-menu {
+	@apply block lg:hidden relative bg-transparent outline-0 border-0 p-0 w-5 h-5;
+}
+
+.btn-toggle-menu::before,
+.btn-toggle-menu::after {
+	@apply bg-[#090b17] content-[''] block h-[2px] left-1/2 absolute -translate-x-1/2 transition-all duration-200 ease-linear w-full origin-center;
+}
+
+.btn-toggle-menu::before {
+	@apply top-1/4;
+}
+
+.btn-toggle-menu::after {
+	@apply top-3/4;
+}
+
+.btn-toggle-menu.active::before {
+	@apply top-1/2 transform rotate-45;
+}
+
+.btn-toggle-menu.active::after {
+	@apply top-1/2 transform -rotate-45;
+}
+
+.navbar-open .btn-toggle-menu::before {
+	@apply left-0 top-1/2 translate-x-0 -rotate-45;
+}
+
+.navbar-open .btn-toggle-menu::after {
+	@apply left-0 top-1/2 translate-x-0 rotate-45;
+}
+
+/* .menu-item {
+	@apply py-[5px];
+} */
