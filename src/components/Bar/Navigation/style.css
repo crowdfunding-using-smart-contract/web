@@ -35,6 +35,6 @@
 	@apply left-0 top-1/2 translate-x-0 rotate-45;
 }
 
-.menu-item {
-	@apply pt-[5px] pr-[10px] pb-[10px];
-}
+/* .menu-item {
+	@apply py-[5px];
+} */
