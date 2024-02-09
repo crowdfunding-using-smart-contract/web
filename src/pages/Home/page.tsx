@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchBar } from "@/components";
+import { ProjectCard, SearchBar } from "@/components";
 import { useNavigate } from "react-router-dom";
 
 export default function Homepage() {
@@ -43,6 +43,16 @@ export default function Homepage() {
 					</div>
 				</div>
 			</section>
+			<section className="max-w-screen-lg mx-auto mt-24 px-4">
+				<p className="uppercase font-semibold">recommend for you</p>
+				<div className="flex w-full gap-x-6 overflow-auto mt-6">
+					{[1, 2, 3, 4, 5, 6].map((_, index) => (
+						<ProjectCard key={index} />
+					))}
+				</div>
+			</section>
 		</React.Fragment>
 	);
 }
+
+// src="https://static.vecteezy.com/system/resources/previews/020/335/987/non_2x/netflix-logo-netflix-icon-free-free-vector.jpg"
