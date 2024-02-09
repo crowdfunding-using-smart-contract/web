@@ -1,5 +1,5 @@
 .navbar {
-	@apply fixed flex items-center justify-between w-full h-[70px] px-5 shadow-[0_5px_20px_0_rgba(11,7,110,.04)];
+	@apply fixed flex items-center justify-between w-full h-[70px] bg-white px-5 shadow-[0_5px_20px_0_rgba(11,7,110,.04)] z-10;
 }
 
 .btn-toggle-menu {
