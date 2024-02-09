@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectCard, SearchBar } from "@/components";
+import { CreateProjectButton, ProjectCard, SearchBar } from "@/components";
 import { useNavigate } from "react-router-dom";
 
 export default function Homepage() {
@@ -49,6 +49,22 @@ export default function Homepage() {
 					{[1, 2, 3, 4, 5, 6].map((_, index) => (
 						<ProjectCard key={index} />
 					))}
+				</div>
+			</section>
+			<section className="bg-[#5340FF] py-24 mt-24 px-4">
+				<div className="flex flex-col md:flex-row items-center gap-y-8 max-w-screen-lg mx-auto">
+					<div className="flex-1 flex flex-col gap-y-6 text-white">
+						<h1 className="font-black text-3xl md:text-4xl text-center md:text-left">
+							Ready to make a project to help the world ?
+						</h1>
+						<p className="text-sm lg:text-base">
+							Embarking on a creative journey with a creativity idea but lacking the necessary funds. Look no further
+							than FundO – your gateway to turning imaginative dreams into reality.
+						</p>
+					</div>
+					<div className="flex-1 text-end">
+						<CreateProjectButton />
+					</div>
 				</div>
 			</section>
 		</React.Fragment>
