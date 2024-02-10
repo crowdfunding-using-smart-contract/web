@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateProjectButton, ProjectCard, SearchBar } from "@/components";
+import { CreateProjectButton, Footer, ProjectCard, SearchBar } from "@/components";
 import { useNavigate } from "react-router-dom";
 
 export default function Homepage() {
@@ -67,6 +67,7 @@ export default function Homepage() {
 					</div>
 				</div>
 			</section>
+			<Footer />
 		</React.Fragment>
 	);
 }
