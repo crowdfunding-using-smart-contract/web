@@ -51,6 +51,41 @@ export default function Homepage() {
 					))}
 				</div>
 			</section>
+			<section className="max-w-screen-lg mx-auto mt-24 px-4 text-center">
+				<h2 className="font-bold text-2xl">Popular Creator</h2>
+				<div className="flex flex-col md:flex-row justify-between mt-10">
+					<div className="flex items-center md:flex-col">
+						<div className="w-40 md:w-56 h-40 md:h-56 mr-8 mb-4">
+							<img
+								src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
+								alt="popular-creator-1"
+								className="w-full h-full object-cover rounded-xl md:rounded-full"
+							/>
+						</div>
+						<h3 className="text-xl font-medium">John Doe</h3>
+					</div>
+					<div className="flex items-center md:flex-col">
+						<div className="w-40 md:w-56 h-40 md:h-56 mr-8 mb-4">
+							<img
+								src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
+								alt="popular-creator-2"
+								className="w-full h-full object-cover rounded-xl md:rounded-full"
+							/>
+						</div>
+						<h3 className="text-xl font-medium">John Doe</h3>
+					</div>
+					<div className="flex items-center md:flex-col">
+						<div className="w-40 md:w-56 h-40 md:h-56 mr-8 mb-4">
+							<img
+								src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
+								alt="popular-creator-2"
+								className="w-full h-full object-cover rounded-xl md:rounded-full"
+							/>
+						</div>
+						<h3 className="text-xl font-medium">John Doe</h3>
+					</div>
+				</div>
+			</section>
 			<section className="bg-[#5340FF] py-24 mt-24 px-4">
 				<div className="flex flex-col md:flex-row items-center gap-y-8 max-w-screen-lg mx-auto">
 					<div className="flex-1 flex flex-col gap-y-6 text-white">
