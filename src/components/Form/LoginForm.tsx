@@ -38,8 +38,12 @@ export default function LoginForm() {
 						type={"password"}
 						icon={<LockClosedIcon className="w-4 h-4 inline-block mr-2 text-gray-400" />}
 					/>
-					<button type="submit" disabled={isSubmitting} className="bg-blue-600 text-white rounded-full py-2 my-4">
-						{!isPending ? "Submit" : "Loading..."}
+					<button
+						type="submit"
+						disabled={isSubmitting}
+						className="bg-[#5340FF] text-white font-medium rounded-full py-3 my-4"
+					>
+						{!isPending ? "LOGIN" : "Loading..."}
 					</button>
 				</Form>
 			)}
@@ -54,13 +58,18 @@ type LoginFormFieldProps = {
 
 function LoginFormField({ type, icon }: LoginFormFieldProps) {
 	return (
-		<div className="my-2">
-			<label htmlFor={type} className="text-sm">
+		<div className="my-2 text-left">
+			<label htmlFor={type} className="text-md font-medium">
 				{type.charAt(0).toUpperCase() + type.slice(1)}
 			</label>
-			<div className="flex items-center border-b border-b-gray-300 pb-1.5">
+			<div className="flex items-center border border-gray-300 rounded px-3">
 				{icon}
-				<Field type={type} name={type} placeholder={`Type your ${type}`} className="outline-none flex-1" />
+				<Field
+					type={type}
+					name={type}
+					placeholder={`Type your ${type}`}
+					className="outline-none bg-[#F5F5F5] px py-3 flex-1"
+				/>
 			</div>
 			<ErrorMessage name={type} component="div" />
 		</div>
