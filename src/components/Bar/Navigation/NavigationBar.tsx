@@ -3,6 +3,11 @@ import "./style.css";
 
 export default function NavigationBar() {
 	const { isMenuActivated, toggleMenu } = useGlobalStore();
+	const { pathname } = window.location;
+
+	if (pathname === "/login" || pathname === "/signup") {
+		return null;
+	}
 
 	return (
 		<nav className={`navbar ${isMenuActivated ? "navbar-open" : ""}`}>
