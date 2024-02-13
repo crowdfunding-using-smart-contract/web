@@ -11,3 +11,22 @@ export type LoginResponse = {
 	refreshTokenExpiredAt: string;
 	user: unknown;
 };
+
+export type RegisterPayload = {
+	email: string;
+	firstname: string;
+	lastname: string;
+	phoneNumber: string;
+	password: string;
+	passwordConfirmation: string;
+};
+
+export type RegisterResponse = {
+	id: string;
+	email: string;
+	fullName: string;
+	phoneNumber: string;
+	profileImage: string;
+	createdAt: string;
+	updatedAt: string;
+};
