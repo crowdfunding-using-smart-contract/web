@@ -1,5 +1,6 @@
+import { ProjectCard } from "@/components";
 import { useListProjectCategoryQuery } from "@/services/query/projectCategory.query";
-import { ComboboxItem, Select } from "@mantine/core";
+import { ComboboxItem, Pagination, Select } from "@mantine/core";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { useSearchParams } from "react-router-dom";
@@ -7,18 +8,19 @@ import { useSearchParams } from "react-router-dom";
 export default function ProjectList() {
 	const { isPending, data: categories } = useListProjectCategoryQuery();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [page, setPage] = useState<number>(parseInt(searchParams.get("page") || "1", 10));
 	const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 	const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
-
-	function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-		setSearchQuery(e.target.value);
-	}
 
 	function onSubmitHandler(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		searchParams.set("q", searchQuery);
 		setSearchParams(searchParams);
+	}
+
+	function onChangeSearchHandler(e: ChangeEvent<HTMLInputElement>) {
+		setSearchQuery(e.target.value);
 	}
 
 	function onChangeCategoryHandler(options: ComboboxItem) {
@@ -51,6 +53,12 @@ export default function ProjectList() {
 		setSearchParams(searchParams);
 	}
 
+	function onChangePageHandler(page: number) {
+		setPage(page);
+		searchParams.set("page", page.toString());
+		setSearchParams(searchParams);
+	}
+
 	useEffect(() => {
 		setSearchQuery(searchParams.get("q") || "");
 		setSelectedCategory(searchParams.get("category") || null);
@@ -70,15 +78,15 @@ export default function ProjectList() {
 
 	return (
 		<div className="pt-[70px] max-w-screen-xl mx-auto">
-			<div className="py-16 px-2 flex">
+			<div className="py-16 px-4 flex flex-col md:flex-row gap-y-4 md:gap-y-0 md:gap-x-4">
 				<form onSubmit={onSubmitHandler}>
-					<div className="flex items-center w-[450px] px-2 bg-white border border-[#ced4da] rounded">
+					<div className="flex items-center w-full md:w-[450px] px-2 bg-white border border-[#ced4da] rounded">
 						<IoMdSearch />
 						<input
 							type="search"
 							placeholder="Enter your interest projects"
 							value={searchQuery}
-							onChange={onChangeHandler}
+							onChange={onChangeSearchHandler}
 							className="w-full px-2 py-[0.45rem] text-sm bg-white text-[#222222] focus:outline-none"
 						/>
 					</div>
@@ -92,7 +100,6 @@ export default function ProjectList() {
 					comboboxProps={{ transitionProps: { transition: "pop", duration: 200 } }}
 					value={selectedCategory}
 					onChange={(_value, options) => onChangeCategoryHandler(options)}
-					className="ml-4"
 				/>
 
 				<Select
@@ -107,8 +114,15 @@ export default function ProjectList() {
 					disabled={!selectedCategory}
 					value={selectedSubcategory}
 					onChange={(_value, options) => onChangeSubcategoryHandler(options)}
-					className="ml-4"
 				/>
+			</div>
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-2">
+				{Array.from({ length: 5 }).map((_, index) => (
+					<ProjectCard key={index} />
+				))}
+			</div>
+			<div className="flex justify-center my-16">
+				<Pagination total={10} color="#5340ff" value={page} onChange={(value) => onChangePageHandler(value)} />
 			</div>
 		</div>
 	);
