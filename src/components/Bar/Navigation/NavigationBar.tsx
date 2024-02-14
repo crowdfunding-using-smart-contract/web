@@ -1,8 +1,11 @@
 import useGlobalStore from "@/store/useGlobalStore";
 import "./style.css";
+import useAuthStore from "@/store/useAuthStore";
+import { User } from "@/types/user";
 
 export default function NavigationBar() {
 	const { isMenuActivated, toggleMenu } = useGlobalStore();
+	const { isAuthenticated, user } = useAuthStore();
 	const { pathname } = window.location;
 
 	if (pathname === "/login" || pathname === "/signup") {
@@ -17,7 +20,7 @@ export default function NavigationBar() {
 
 			<div className="hidden lg:flex lg:items-center lg:relative lg:top-0 w-full lg:h-auto bg-white lg:p-0 text-[#090b17]">
 				<MenuList />
-				<ButtonList />
+				{!isAuthenticated ? <ButtonList /> : <UserProfile user={user} />}
 			</div>
 			{isMenuActivated && (
 				<div className="block lg:hidden fixed left-0 top-[70px] w-full h-[calc(100vh-70px)] bg-white p-8 text-[#090b17]">
@@ -68,6 +71,35 @@ function ButtonList() {
 			</a>
 			<a href="/login">
 				<button className="w-full py-4 text-center">Log in</button>
+			</a>
+		</div>
+	);
+}
+
+function UserProfile({ user }: { user: User | null }) {
+	if (!user) {
+		return null;
+	}
+
+	return (
+		<div className="flex items-center text-gray-900">
+			<a href="/projects/new" className="underline mr-3">
+				Create Project
+			</a>
+			<a
+				href="/profile"
+				className="hover:bg-gray-100 flex items-center gap-x-3 p-2 rounded duration-150 cursor-pointer"
+			>
+				{!user.profileImage ? (
+					<div className="w-10 h-10 bg-gray-300 shadow font-medium rounded-full flex items-center justify-center">
+						{user.fullName[0]}
+					</div>
+				) : (
+					<img src={user.profileImage} alt={user.fullName} className="w-10 h-10 rounded-full" />
+				)}
+				<span>
+					{user.fullName.split(" ")[0]} {`${user.fullName.split(" ")[1][0]}.`}
+				</span>
 			</a>
 		</div>
 	);

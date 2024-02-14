@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export type LoginPayload = {
 	email: string;
 	password: string;
@@ -9,7 +11,7 @@ export type LoginResponse = {
 	accessTokenExpiredAt: string;
 	refreshToken: string;
 	refreshTokenExpiredAt: string;
-	user: unknown;
+	user: User;
 };
 
 export type RegisterPayload = {
@@ -21,12 +23,4 @@ export type RegisterPayload = {
 	passwordConfirmation: string;
 };
 
-export type RegisterResponse = {
-	id: string;
-	email: string;
-	fullName: string;
-	phoneNumber: string;
-	profileImage: string;
-	createdAt: string;
-	updatedAt: string;
-};
+export interface ResgisterResponse extends User {}
