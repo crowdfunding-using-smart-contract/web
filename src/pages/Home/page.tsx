@@ -47,7 +47,7 @@ export default function Homepage() {
 				<p className="uppercase font-semibold">recommend for you</p>
 				<div className="flex w-full gap-x-6 overflow-auto mt-6">
 					{[1, 2, 3, 4, 5, 6].map((_, index) => (
-						<ProjectCard key={index} />
+						<ProjectCard projectId={`${index + 1}`} key={index} />
 					))}
 				</div>
 			</section>
