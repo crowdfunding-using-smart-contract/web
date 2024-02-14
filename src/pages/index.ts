@@ -4,3 +4,4 @@ export { default as RegisterPage } from "./Register/page";
 export { default as NewProjectPage } from "./Projects/New/page";
 export { default as ProjectList } from "./Projects/List/page";
 export { default as ProjectDetail } from "./Projects/Detail/page";
+export { default as Profile } from "./Profile/page";

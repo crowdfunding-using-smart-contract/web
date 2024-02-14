@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Homepage, LoginPage, NewProjectPage, ProjectDetail, ProjectList, RegisterPage } from "../pages";
+import { Homepage, LoginPage, NewProjectPage, Profile, ProjectDetail, ProjectList, RegisterPage } from "../pages";
 
 function Router() {
 	return (
@@ -11,6 +11,7 @@ function Router() {
 				<Route path="/projects/new" element={<NewProjectPage />} />
 				<Route path="/projects" element={<ProjectList />} />
 				<Route path="/projects/:projectId" element={<ProjectDetail />} />
+				<Route path="/profile" element={<Profile />} />
 			</Routes>
 		</BrowserRouter>
 	);
