@@ -12,7 +12,7 @@ const loginSchema = Yup.object().shape({
 
 export default function LoginForm() {
 	const { isPending, mutateAsync: login } = useAuthLoginMutation();
-	const { setIsAuthenticated } = useAuthStore();
+	const { setIsAuthenticated, setUser } = useAuthStore();
 
 	const initialValues: LoginPayload = { email: "", password: "" };
 
@@ -23,9 +23,9 @@ export default function LoginForm() {
 			onSubmit={async (values, { setSubmitting }) => {
 				try {
 					const res = await login(values);
-					console.log(res);
-					setSubmitting(false);
 					setIsAuthenticated(true);
+					setUser(res.user);
+					setSubmitting(false);
 				} catch (error) {
 					console.error("Fetch login error", error);
 				}

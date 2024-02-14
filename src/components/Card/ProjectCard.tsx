@@ -1,6 +1,17 @@
-export default function ProjectCard() {
+import { useNavigate } from "react-router-dom";
+
+type ProjectCardProps = {
+	projectId: string;
+};
+
+export default function ProjectCard({ projectId }: ProjectCardProps) {
+	const navigate = useNavigate();
+
 	return (
-		<div className="relative flex min-w-80 flex-col rounded bg-white text-gray-700 border">
+		<div
+			className="relative flex min-w-80 flex-col rounded bg-white text-gray-700 border"
+			onClick={() => navigate(`/projects/${projectId}`)}
+		>
 			<div className="relative flex m-0 rounded-t text-gray-700 max-h-[256px] border-b">
 				<img
 					src="https://static.vecteezy.com/system/resources/previews/020/335/987/non_2x/netflix-logo-netflix-icon-free-free-vector.jpg"

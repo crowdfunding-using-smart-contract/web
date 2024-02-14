@@ -118,7 +118,7 @@ export default function ProjectList() {
 			</div>
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-2">
 				{Array.from({ length: 5 }).map((_, index) => (
-					<ProjectCard key={index} />
+					<ProjectCard projectId={`${index + 1}`} key={index} />
 				))}
 			</div>
 			<div className="flex justify-center my-16">
