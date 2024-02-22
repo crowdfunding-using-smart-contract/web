@@ -1,5 +1,5 @@
 import { api } from "@/libs/api";
-import type { LoginPayload, LoginResponse, RegisterPayload, RegisterResponse } from "@/types/auth";
+import type { LoginPayload, LoginResponse, RegisterPayload, ResgisterResponse } from "@/types/auth";
 import type { ResultResponse } from "@/types/response";
 
 export async function login(params: LoginPayload): Promise<ResultResponse<LoginResponse>> {
@@ -8,7 +8,7 @@ export async function login(params: LoginPayload): Promise<ResultResponse<LoginR
 	return data;
 }
 
-export async function register(params: RegisterPayload): Promise<ResultResponse<RegisterResponse>> {
+export async function register(params: RegisterPayload): Promise<ResultResponse<ResgisterResponse>> {
 	const { data } = await api.post("/auth/register", params);
 
 	return data;
