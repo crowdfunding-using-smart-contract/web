@@ -2,6 +2,7 @@ import useGlobalStore from "@/store/useGlobalStore";
 import "./style.css";
 import useAuthStore from "@/store/useAuthStore";
 import { User } from "@/types/user";
+import { changeBrowserLanguage } from "@/i18n/functions";
 
 export default function NavigationBar() {
 	const { isMenuActivated, toggleMenu } = useGlobalStore();
@@ -20,6 +21,7 @@ export default function NavigationBar() {
 
 			<div className="hidden lg:flex lg:items-center lg:relative lg:top-0 w-full lg:h-auto bg-white lg:p-0 text-[#090b17]">
 				<MenuList />
+				<button onClick={() => changeBrowserLanguage("th")}>LANG</button>
 				{!isAuthenticated ? <ButtonList /> : <UserProfile user={user} />}
 			</div>
 			{isMenuActivated && (
