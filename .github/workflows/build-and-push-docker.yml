@@ -1,8 +1,8 @@
-name: Build and Push Docker Image
+name: build
 
 on:
   workflow_run:
-    workflows: ["Push Tag and Create Release on Github"]
+    workflows: [release]
     types: [completed]
 
 jobs:
