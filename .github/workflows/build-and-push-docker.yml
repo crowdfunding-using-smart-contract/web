@@ -1,6 +1,9 @@
 name: Build and Push Docker Image
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ["Push Tag and Create Release on Github"]
+    types: [completed]
 
 jobs:
   build-and-push-docker-image:
@@ -24,7 +27,7 @@ jobs:
 
       - name: Set Docker Image Tag
         id: set_docker_tag
-        run: echo "DOCKER_IMAGE_TAG=ghcr.io/${{ github.repository_owner }}/fund-o-web:${{ steps.previous_tag.outputs.tag }}" >> $GITHUB_ENV
+        run: echo "DOCKER_IMAGE_TAG=ghcr.io/${{ github.repository_owner }}/fund-o-api-server:${{ steps.previous_tag.outputs.tag }}" >> $GITHUB_ENV
 
       - name: Build Docker Image and Push to Docker Hub
         uses: docker/build-push-action@v5
