@@ -13,3 +13,9 @@ export async function register(params: RegisterPayload): Promise<ResultResponse<
 
 	return data;
 }
+
+export async function sendVerifyEmail(params: { email: string }): Promise<ResultResponse<unknown>> {
+	const { data } = await api.post("/api/auth/send-verify-email", params);
+
+	return data;
+}

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { logger } from "./logger";
 import { RegisterPayload } from "@/types/auth";
-import { register } from "@/services/api/auth.api";
+import { register, sendVerifyEmail } from "@/services/api/auth.api";
 
 export type RegisterActionType = "authentication" | "privacyProtection" | "personalInformation" | "verifyEmail";
 
@@ -15,11 +15,12 @@ export interface RegisterStore extends RegisterState {
 	setAction: (action: RegisterState["action"]) => void;
 	setPayload: (field: keyof RegisterPayload, value: string) => void;
 	registerAsync: () => Promise<void>;
+	sendVerifyEmailAsync: () => Promise<void>;
 }
 
 const initialState: Pick<RegisterStore, keyof RegisterState> = {
 	isRegistering: false,
-	action: "verifyEmail",
+	action: "authentication",
 	payload: {
 		email: "",
 		password: "",
@@ -51,6 +52,20 @@ const useRegisterStore = create<RegisterStore>()(
 					}
 				} catch (error) {
 					console.error("Failed to registration: ", error);
+				} finally {
+					set(() => ({ isRegistering: false }));
+				}
+			},
+			sendVerifyEmailAsync: async () => {
+				const email = get().payload.email;
+				set(() => ({ isRegistering: true }));
+				try {
+					const res = await sendVerifyEmail({ email: email });
+					if (res.statusCode === 200) {
+						console.log("Email sent successfully");
+					}
+				} catch (error) {
+					console.error("Failed to send verify email: ", error);
 				} finally {
 					set(() => ({ isRegistering: false }));
 				}
