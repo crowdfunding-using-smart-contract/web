@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { logger } from "./logger";
-import { getItem, setItem } from "@/libs/localStorage";
 import { RegisterPayload } from "@/types/auth";
+import { register } from "@/services/api/auth.api";
 
-export type RegisterActionType = "authentication" | "privacyProtection" | "personalInformation";
+export type RegisterActionType = "authentication" | "privacyProtection" | "personalInformation" | "verifyEmail";
 
 type RegisterState = {
+	isRegistering: boolean;
 	action: RegisterActionType;
 	payload: RegisterPayload;
 };
@@ -13,10 +14,12 @@ type RegisterState = {
 export interface RegisterStore extends RegisterState {
 	setAction: (action: RegisterState["action"]) => void;
 	setPayload: (field: keyof RegisterPayload, value: string) => void;
+	registerAsync: () => Promise<void>;
 }
 
 const initialState: Pick<RegisterStore, keyof RegisterState> = {
-	action: getItem("register_action") || "authentication",
+	isRegistering: false,
+	action: "verifyEmail",
 	payload: {
 		email: "",
 		password: "",
@@ -30,17 +33,27 @@ const initialState: Pick<RegisterStore, keyof RegisterState> = {
 
 const useRegisterStore = create<RegisterStore>()(
 	logger<RegisterStore>(
-		(set) => ({
+		(set, get) => ({
 			...initialState,
 			setAction: (action) => {
-				setItem("register_action", action);
 				set(() => ({ action }));
 			},
 			setPayload: (field: keyof RegisterPayload, value: string) => {
 				set((state) => ({ payload: { ...state.payload, [field]: value } }));
 			},
-			register: async (payload: RegisterPayload) => {
-				return Promise.resolve(payload);
+			registerAsync: async () => {
+				const payload = get().payload;
+				set(() => ({ isRegistering: true }));
+				try {
+					const res = await register(payload);
+					if (res.statusCode === 201) {
+						set(() => ({ action: "verifyEmail" }));
+					}
+				} catch (error) {
+					console.error("Failed to registration: ", error);
+				} finally {
+					set(() => ({ isRegistering: false }));
+				}
 			},
 		}),
 		"registerStore",

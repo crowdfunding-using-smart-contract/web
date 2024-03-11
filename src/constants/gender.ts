@@ -1,14 +1,14 @@
 export const genderOptions = [
 	{
 		label: "Male",
-		value: "M",
+		value: "m",
 	},
 	{
 		label: "Female",
-		value: "F",
+		value: "f",
 	},
 	{
 		label: "Rather not say",
-		value: "NA",
+		value: "ns",
 	},
 ];

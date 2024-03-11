@@ -1,13 +1,10 @@
-// import { DateInput } from "@mantine/dates";
-// import { Select } from "@mantine/core";
+import dayjs from "dayjs";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { DateInput } from "@mantine/dates";
 import { Select } from "@mantine/core";
 import { genderOptions } from "@/constants/gender";
-// import type { RegisterPayload } from "@/types/auth";
-import { ErrorFields } from "@/types/error";
 import useRegisterStore from "@/store/useRegisterStore";
-import dayjs from "dayjs";
+import type { ErrorFields } from "@/types/error";
 
 type PersonalInformationFormValues = {
 	firstname: string;
@@ -17,7 +14,7 @@ type PersonalInformationFormValues = {
 };
 
 export default function PersonalInformationForm() {
-	const { setPayload } = useRegisterStore();
+	const { setPayload, isRegistering, registerAsync } = useRegisterStore();
 
 	const initialValues: PersonalInformationFormValues = {
 		firstname: "",
@@ -26,7 +23,7 @@ export default function PersonalInformationForm() {
 		gender: null,
 	};
 
-	function onSubmitHandler(
+	async function onSubmitHandler(
 		values: PersonalInformationFormValues,
 		formikHelpers: FormikHelpers<PersonalInformationFormValues>,
 	) {
@@ -68,6 +65,12 @@ export default function PersonalInformationForm() {
 		setPayload("lastname", values.lastname);
 		setPayload("birthdate", values.birthdate.toISOString());
 		setPayload("gender", values.gender);
+
+		try {
+			await registerAsync();
+		} catch (error) {
+			console.error("Fetch register error", error);
+		}
 	}
 
 	return (
@@ -138,7 +141,7 @@ export default function PersonalInformationForm() {
 						{errors.gender && <div className="text-red-500 text-xs">{errors.gender}</div>}
 					</div>
 					<button className="py-2 px-8 w-max mt-8 rounded-lg shadow-2xl text-sm text-white font-semibold bg-primary opacity-95 hover:opacity-100">
-						Continue
+						{isRegistering ? "Loading..." : "Continue"}
 					</button>
 				</Form>
 			)}
