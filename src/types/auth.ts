@@ -16,11 +16,12 @@ export type LoginResponse = {
 
 export type RegisterPayload = {
 	email: string;
-	firstname: string;
-	lastname: string;
-	phoneNumber: string;
 	password: string;
 	passwordConfirmation: string;
+	firstname: string;
+	lastname: string;
+	birthdate: string;
+	gender: string;
 };
 
 export interface ResgisterResponse extends User {}
