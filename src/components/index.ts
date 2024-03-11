@@ -1,6 +1,5 @@
 export { default as LoginForm } from "./Form/LoginForm";
 export { default as RegisterForm } from "./Form/RegisterForm";
-export { default as RegisterFormV2 } from "./Form/RegisterFormV2";
 export { default as NavigationBar } from "./Bar/Navigation/NavigationBar";
 export { default as SearchBar } from "./Bar/Search/SearchBar";
 export { default as ProjectCard } from "./Card/ProjectCard";
