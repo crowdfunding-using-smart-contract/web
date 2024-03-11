@@ -18,7 +18,7 @@ export default function PrivacyProtectionForm() {
 	}
 
 	return (
-		<form className="w-96 flex flex-col" onSubmit={onSubmitHandler}>
+		<form className="w-full sm:w-96 flex flex-col" onSubmit={onSubmitHandler}>
 			<h1 className="text-2xl font-bold">Privacy protection comes first</h1>
 			<p className="text-sm">
 				Before we can continue, we need your consent to some privacy and security issues. Answers to common questions on

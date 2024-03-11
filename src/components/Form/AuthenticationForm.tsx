@@ -41,7 +41,7 @@ export default function AuthenticationForm() {
 	return (
 		<Formik initialValues={initialValues} onSubmit={onSubmitHandler}>
 			{({ errors }) => (
-				<Form className="w-96 flex flex-col">
+				<Form className="w-full sm:w-96 flex flex-col">
 					<h1 className="text-2xl font-bold">Your journey to better mental health starts here</h1>
 					<p className="text-sm">
 						You're in good hands, we've already helped many people understand and improve their mental health. To get

@@ -73,7 +73,7 @@ export default function PersonalInformationForm() {
 	return (
 		<Formik initialValues={initialValues} onSubmit={onSubmitHandler}>
 			{({ values, errors, setValues }) => (
-				<Form className="w-96 flex flex-col text-font-primary">
+				<Form className="w-full sm:w-96 flex flex-col text-font-primary">
 					<h1 className="text-2xl font-bold">We're glad you're here</h1>
 					<p className="text-sm">
 						Now we would like to get to know you a little bit better. Please fill in the following fields to continue

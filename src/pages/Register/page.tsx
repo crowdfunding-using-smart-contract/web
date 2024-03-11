@@ -14,13 +14,13 @@ export default function RegisterPage() {
 						<h4 className="text-2xl font-black text-primary">FundO</h4>
 					</div>
 					<div className="w-full flex flex-col">
-						<div className="flex flex-col items-center py-24 mr-8">
+						<div className="flex flex-col items-center py-24 mr-0 sm:mr-8">
 							<RegisterFormV2 />
 						</div>
 						{action === "authentication" && <LanguagePicker />}
 					</div>
 				</div>
-				<div className="flex-1">
+				<div className="flex-1 hidden lg:block">
 					<Carousel
 						withControls={false}
 						className="h-full"
