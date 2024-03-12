@@ -7,6 +7,7 @@ import i18nOptions from "./i18n/options.ts";
 import "./index.css";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import "@mantine/carousel/styles.css";
 
 i18n.use(initReactI18next).init(i18nOptions);
 

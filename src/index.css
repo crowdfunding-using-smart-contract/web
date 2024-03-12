@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+	:root {
+		--color-primary: 84 51 255;
+		--color-text-primary: 34 34 34;
+	}
+}
+
 :root {
 	font-family: "CircularStd", sans-serif;
 	line-height: 1.5;

@@ -8,3 +8,4 @@ export { default as Footer } from "./Footer/Footer";
 export { default as DatePicker } from "./Picker/Date/DatePicker";
 export { default as HourPicker } from "./Picker/Time/HourPicker";
 export { default as MinutePicker } from "./Picker/Time/MinutePicker";
+export { default as LanguagePicker } from "./Picker/Language/LanguagePicker";
