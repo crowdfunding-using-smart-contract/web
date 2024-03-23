@@ -1,6 +1,6 @@
 import { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
 import { camelizeKeys, decamelizeKeys } from "humps";
-import { getItem } from "./localStorage";
+import { getCookie } from "./cookie";
 
 export interface ConsoleError {
 	status: number;
@@ -8,13 +8,17 @@ export interface ConsoleError {
 }
 
 export const requestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-	const token = getItem<string>("token");
+	const token = getCookie("access_token");
 	if (token) {
 		config.headers.set("Authorization", `Bearer ${token}`);
 	}
 
 	config.params = decamelizeKeys(config.params);
-	config.data = decamelizeKeys(config.data);
+	if (config.data instanceof FormData) {
+		config.headers.set("Content-Type", "multipart/form-data");
+	} else if (config.data) {
+		config.data = decamelizeKeys(config.data);
+	}
 
 	return config;
 };
