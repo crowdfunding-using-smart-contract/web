@@ -7,6 +7,8 @@ import i18nOptions from "./i18n/options.ts";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/carousel/styles.css";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/react/style.css";
 import "./index.css";
 
 i18n.use(initReactI18next).init(i18nOptions);

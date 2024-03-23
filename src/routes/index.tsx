@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
+	ForumDetailPage,
 	ForumList,
 	Homepage,
 	LoginPage,
+	NewForumPage,
 	NewProjectPage,
 	Profile,
 	ProjectDetail,
@@ -22,6 +24,8 @@ function Router() {
 				<Route path="/projects/:projectId" element={<ProjectDetail />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/forum" element={<ForumList />} />
+				<Route path="/forum/new" element={<NewForumPage />} />
+				<Route path="/forum/:postId" element={<ForumDetailPage />} />
 			</Routes>
 		</BrowserRouter>
 	);
