@@ -21,7 +21,7 @@ export default function DatePicker({ value, setValue }: DatePickerProps) {
 			onChange={setValue}
 			valueFormatter={() => ""}
 			size={"md"}
-			className="w-max"
+			className="w-max border rounded-sm"
 		/>
 	);
 }
