@@ -1,3 +1,6 @@
+import type { ProjectCategory, ProjectSubCategory } from "./projectCategory";
+import type { User } from "./user";
+
 export type CreateProjectPayload = {
 	title: string;
 	subTitle: string;
@@ -10,4 +13,23 @@ export type CreateProjectPayload = {
 	monetaryUnit: string;
 	endDate: Date | null;
 	lanuchDate: Date | null;
+};
+
+export type Project = {
+	id: string;
+	title: string;
+	subTitle: string;
+	description: string;
+	category: ProjectCategory;
+	subCategory: ProjectSubCategory;
+	location: string;
+	image: string;
+	targetFunding: number;
+	currentFunding: number;
+	monetaryUnit: string;
+	startDate: string;
+	endDate: string;
+	launchDate: string;
+	owner: User;
+	createdAt: string;
 };
