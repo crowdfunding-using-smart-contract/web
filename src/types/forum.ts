@@ -25,3 +25,10 @@ export type Reply = {
 export type GetPostParams = {
 	postId: string;
 };
+
+export type CreatePostPayload = {
+	title: string;
+	description: string;
+	content: string;
+	projectId: string;
+};
