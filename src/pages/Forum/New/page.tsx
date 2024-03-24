@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import type { CreatePostPayload } from "@/types/forum";
 import { useGetOwnProjectsQuery } from "@/services/query/project.query";
 import { useCreatePostMutation } from "@/services/query/forum.query";
+import { Toast } from "@/libs/sweetalert2";
 
 const CreatePostSchema = Yup.object().shape({
 	projectId: Yup.string().required("Required"),
@@ -15,7 +16,7 @@ const CreatePostSchema = Yup.object().shape({
 export default function NewForumPage() {
 	const editor = useCreateBlockNote();
 	const { isPending: fetchingProjects, data: projects } = useGetOwnProjectsQuery();
-	const { isPending: creatingPost, mutateAsync: createPostAsync } = useCreatePostMutation();
+	const { isSuccess, isError, isPending: creatingPost, mutateAsync: createPostAsync } = useCreatePostMutation();
 
 	if (fetchingProjects || !projects) return <div className="pt-44">Loading...</div>;
 
@@ -26,12 +27,22 @@ export default function NewForumPage() {
 		content: "",
 	};
 
+	if (isSuccess) {
+		Toast.fire({
+			icon: "success",
+			title: "Post created successfully!",
+		});
+	}
+
+	if (isError) {
+		Toast.fire({
+			icon: "error",
+			title: "Failed to create post, please try again later.",
+		});
+	}
+
 	async function onSubmitHandler(values: CreatePostPayload) {
-		try {
-			await createPostAsync(values);
-		} catch (error) {
-			console.error("Error creating post", error);
-		}
+		await createPostAsync(values);
 	}
 
 	return (
