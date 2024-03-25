@@ -1,11 +1,11 @@
 import useGlobalStore from "@/store/useGlobalStore";
 import "./style.css";
 import useAuthStore from "@/store/useAuthStore";
-import { User } from "@/types/user";
-import { changeBrowserLanguage } from "@/i18n/functions";
+import { CgMenuGridO } from "react-icons/cg";
+import { navbarProducts } from "@/constants/menu";
 
 export default function NavigationBar() {
-	const { isMenuActivated, toggleMenu } = useGlobalStore();
+	const { isMenuActivated, toggleMenu, setCoreMenuActivated, setProfileMenuActivated } = useGlobalStore();
 	const { isAuthenticated, user } = useAuthStore();
 	const { pathname } = window.location;
 
@@ -21,8 +21,34 @@ export default function NavigationBar() {
 
 			<div className="hidden lg:flex lg:items-center lg:relative lg:top-0 w-full lg:h-auto bg-white lg:p-0 text-[#090b17]">
 				<MenuList />
-				<button onClick={() => changeBrowserLanguage("th")}>LANG</button>
-				{!isAuthenticated ? <ButtonList /> : <UserProfile user={user} />}
+				{!isAuthenticated ? (
+					<ButtonList />
+				) : (
+					<div className="flex gap-x-2 items-center text-gray-900">
+						<button
+							className="w-10 h-10 relative place-items-center hover:bg-gray-100 rounded-full duration-150 cursor-pointer"
+							onClick={() => setCoreMenuActivated(true)}
+						>
+							<CgMenuGridO
+								size={24}
+								color={"#7f7f7f"}
+								className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+							/>
+						</button>
+						<button
+							className="hover:bg-gray-100 flex items-center p-0.5 rounded-full duration-150 cursor-pointer"
+							onClick={() => setProfileMenuActivated(true)}
+						>
+							{!user?.profileImage ? (
+								<div className="w-9 h-9 bg-gray-200 shadow font-medium rounded-full flex items-center justify-center">
+									{user?.fullName[0]}
+								</div>
+							) : (
+								<img src={user.profileImage} alt={user.fullName} className="w-9 h-9 rounded-full" />
+							)}
+						</button>
+					</div>
+				)}
 			</div>
 			{isMenuActivated && (
 				<div className="block lg:hidden fixed left-0 top-[70px] w-full h-[calc(100vh-70px)] bg-white p-8 text-[#090b17]">
@@ -40,27 +66,11 @@ export default function NavigationBar() {
 function MenuList() {
 	return (
 		<ul className="flex flex-col lg:flex-row text-xl sm:text-2xl lg:text-sm font-medium text-left gap-y-3 lg:gap-y-0 lg:gap-x-6 lg:mx-auto lg:my-0">
-			<li className="menu-item">
-				<a href="/">Art</a>
-			</li>
-			<li className="menu-item">
-				<a href="/">Comis & Illustration</a>
-			</li>
-			<li className="menu-item">
-				<a href="/">Design & Tech</a>
-			</li>
-			<li className="menu-item">
-				<a href="/">Film</a>
-			</li>
-			<li className="menu-item">
-				<a href="/">Food & Craft</a>
-			</li>
-			<li className="menu-item">
-				<a href="/">Games</a>
-			</li>
-			<li className="menu-item">
-				<a href="/">Music</a>
-			</li>
+			{navbarProducts.map((p) => (
+				<li key={p.label} className="menu-item">
+					<a href={`/projects?c=${p.url}`}>{p.label}</a>
+				</li>
+			))}
 		</ul>
 	);
 }
@@ -73,35 +83,6 @@ function ButtonList() {
 			</a>
 			<a href="/login">
 				<button className="w-full py-4 text-center">Log in</button>
-			</a>
-		</div>
-	);
-}
-
-function UserProfile({ user }: { user: User | null }) {
-	if (!user) {
-		return null;
-	}
-
-	return (
-		<div className="flex items-center text-gray-900">
-			<a href="/projects/new" className="underline mr-3">
-				Create Project
-			</a>
-			<a
-				href="/profile"
-				className="hover:bg-gray-100 flex items-center gap-x-3 p-2 rounded duration-150 cursor-pointer"
-			>
-				{!user.profileImage ? (
-					<div className="w-10 h-10 bg-gray-300 shadow font-medium rounded-full flex items-center justify-center">
-						{user.fullName[0]}
-					</div>
-				) : (
-					<img src={user.profileImage} alt={user.fullName} className="w-10 h-10 rounded-full" />
-				)}
-				<span>
-					{user.fullName.split(" ")[0]} {`${user.fullName.split(" ")[1][0]}.`}
-				</span>
 			</a>
 		</div>
 	);
