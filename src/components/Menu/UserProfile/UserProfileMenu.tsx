@@ -33,7 +33,7 @@ export default function UserProfileMenu() {
 						onClick={() => setIsOpenProfilePicutureModal(true)}
 					>
 						{user?.profileImage ? (
-							<img src={user.profileImage} className="w-full h-full rounded-full" />
+							<img src={user.profileImage} className="w-full h-full object-cover rounded-full" />
 						) : (
 							<div className="text-2xl font-bold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 								{user?.fullName[0]}

@@ -44,7 +44,7 @@ export default function NavigationBar() {
 									{user?.fullName[0]}
 								</div>
 							) : (
-								<img src={user.profileImage} alt={user.fullName} className="w-9 h-9 rounded-full" />
+								<img src={user.profileImage} alt={user.fullName} className="w-9 h-9 object-cover rounded-full" />
 							)}
 						</button>
 					</div>
