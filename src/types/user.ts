@@ -9,3 +9,8 @@ export type User = {
 	createdAt: string;
 	updatedAt: string;
 };
+
+export type UpdateUserPayload = {
+	email?: string;
+	profileImage?: File | null;
+};

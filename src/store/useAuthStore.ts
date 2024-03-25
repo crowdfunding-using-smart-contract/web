@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { logger } from "./logger";
 import { getItem, setItem } from "@/libs/localStorage";
-import { User } from "@/types/user";
+import { UpdateUserPayload, User } from "@/types/user";
+import { updateUserById } from "@/services/api/user.api";
 
 type AuthState = {
 	isAuthenticated: boolean;
@@ -11,6 +12,7 @@ type AuthState = {
 export interface AuthStore extends AuthState {
 	setIsAuthenticated: (args: AuthState["isAuthenticated"]) => void;
 	setUser: (args: AuthState["user"]) => void;
+	updateUserByIdAsync: (id: string, payload: UpdateUserPayload) => Promise<void>;
 }
 
 const initialState: Pick<AuthStore, keyof AuthState> = {
@@ -29,6 +31,17 @@ const useAuthStore = create<AuthStore>()(
 			setUser: (user) => {
 				setItem("active_user", user);
 				set(() => ({ user }));
+			},
+			updateUserByIdAsync: async (id, payload) => {
+				try {
+					const res = await updateUserById(id, payload);
+					if (res.statusCode === 200) {
+						setItem("active_user", res.result);
+						set(() => ({ user: res.result }));
+					}
+				} catch (error) {
+					console.error("Failed to update user: ", error);
+				}
 			},
 		}),
 		"authStore",
