@@ -1,7 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
-import { useAuthLoginMutation } from "@/services/query/auth.query";
 import type { LoginPayload } from "@/types/auth";
 import useAuthStore from "@/store/useAuthStore";
 import { useNavigate } from "react-router-dom";
@@ -12,25 +11,28 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function LoginForm() {
-	const { isPending, mutateAsync: login } = useAuthLoginMutation();
-	const { setIsAuthenticated, setUser } = useAuthStore();
+	// const { isPending, mutateAsync: login } = useAuthLoginMutation();
+	const { loginAsync } = useAuthStore();
 	const navigate = useNavigate();
 
-	const initialValues: LoginPayload = { email: "", password: "" };
+	const initialValues: LoginPayload = {
+		email: "",
+		password: "",
+	};
 
 	return (
 		<Formik
 			initialValues={initialValues}
 			validationSchema={loginSchema}
 			onSubmit={async (values, { setSubmitting }) => {
+				setSubmitting(true);
 				try {
-					const res = await login(values);
-					setIsAuthenticated(true);
-					setUser(res.user);
-					setSubmitting(false);
+					await loginAsync(values);
 					navigate("/");
 				} catch (error) {
 					console.error("Fetch login error", error);
+				} finally {
+					setSubmitting(false);
 				}
 			}}
 		>
@@ -46,7 +48,7 @@ export default function LoginForm() {
 						disabled={isSubmitting}
 						className="bg-[#5340FF] text-white font-medium rounded-full py-3 my-4"
 					>
-						{!isPending ? "LOGIN" : "Loading..."}
+						{!isSubmitting ? "LOGIN" : "Loading..."}
 					</button>
 				</Form>
 			)}

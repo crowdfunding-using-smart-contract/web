@@ -3,6 +3,9 @@ import { logger } from "./logger";
 import { getItem, setItem } from "@/libs/localStorage";
 import { UpdateUserPayload, User } from "@/types/user";
 import { updateUserById } from "@/services/api/user.api";
+import { LoginPayload } from "@/types/auth";
+import { login } from "@/services/api/auth.api";
+import { setCookie } from "@/libs/cookie";
 
 type AuthState = {
 	isAuthenticated: boolean;
@@ -12,6 +15,7 @@ type AuthState = {
 export interface AuthStore extends AuthState {
 	setIsAuthenticated: (args: AuthState["isAuthenticated"]) => void;
 	setUser: (args: AuthState["user"]) => void;
+	loginAsync: (payload: LoginPayload) => Promise<void>;
 	updateUserByIdAsync: (id: string, payload: UpdateUserPayload) => Promise<void>;
 }
 
@@ -22,7 +26,7 @@ const initialState: Pick<AuthStore, keyof AuthState> = {
 
 const useAuthStore = create<AuthStore>()(
 	logger<AuthStore>(
-		(set) => ({
+		(set, get) => ({
 			...initialState,
 			setIsAuthenticated: (isAuthenticated) => {
 				setItem("is_authenticated", isAuthenticated);
@@ -31,6 +35,18 @@ const useAuthStore = create<AuthStore>()(
 			setUser: (user) => {
 				setItem("active_user", user);
 				set(() => ({ user }));
+			},
+			loginAsync: async (payload) => {
+				const res = await login(payload);
+				if (res.statusCode === 200) {
+					get().setIsAuthenticated(true);
+					get().setUser(res.result.user);
+					setCookie("session_id", res.result.sessionId);
+					setCookie("access_token", res.result.accessToken);
+					setCookie("access_token_expired_at", res.result.accessTokenExpiredAt);
+					setCookie("refresh_token", res.result.refreshToken);
+					setCookie("refresh_token_expired_at", res.result.refreshTokenExpiredAt);
+				}
 			},
 			updateUserByIdAsync: async (id, payload) => {
 				try {

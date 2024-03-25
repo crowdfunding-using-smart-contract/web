@@ -4,7 +4,7 @@ const getCookie = (key: string): string | null => {
 		.find((row) => row.startsWith(`${key}=`))
 		?.split("=")[1];
 	if (!value) return null;
-	return value;
+	return JSON.parse(value);
 };
 
 const setCookie = (key: string, value: unknown) => {
