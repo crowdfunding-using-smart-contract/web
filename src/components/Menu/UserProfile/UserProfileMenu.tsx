@@ -2,11 +2,14 @@ import useAuthStore from "@/store/useAuthStore";
 import { RxCross2 } from "react-icons/rx";
 import { VscSignOut } from "react-icons/vsc";
 import { CgProfile } from "react-icons/cg";
+import { MdOutlineModeEdit } from "react-icons/md";
 import useGlobalStore from "@/store/useGlobalStore";
+import { useState } from "react";
 
 export default function UserProfileMenu() {
 	const { user } = useAuthStore();
-	const { isProfileMenuActivated, setProfileMenuActivated } = useGlobalStore();
+	const { isProfileMenuActivated, setProfileMenuActivated, setIsOpenProfilePicutureModal } = useGlobalStore();
+	const [isHoveringProfilePicture, setIsHoveringProfilePicture] = useState(false);
 
 	if (!isProfileMenuActivated) {
 		return null;
@@ -23,7 +26,25 @@ export default function UserProfileMenu() {
 				</div>
 				<p className="text-sm font-medium text-center my-2">{user?.email}</p>
 				<div className="flex flex-col items-center my-4">
-					<div className="w-24 h-24 bg-red-500 rounded-full"></div>
+					<div
+						className="w-24 h-24 bg-indigo-500 text-gray-100 rounded-full relative cursor-pointer"
+						onMouseEnter={() => setIsHoveringProfilePicture(true)}
+						onMouseLeave={() => setIsHoveringProfilePicture(false)}
+						onClick={() => setIsOpenProfilePicutureModal(true)}
+					>
+						{user?.profileImage ? (
+							<img src={user.profileImage} className="w-full h-full rounded-full" />
+						) : (
+							<div className="text-2xl font-bold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+								{user?.fullName[0]}
+							</div>
+						)}
+						<div
+							className={`${isHoveringProfilePicture ? "bg-gray-300" : "bg-gray-200"} absolute bottom-1 right-1 w-6 h-6 rounded-full flex items-center justify-center`}
+						>
+							<MdOutlineModeEdit size={16} color={isHoveringProfilePicture ? "#2563eb" : "#222"} />
+						</div>
+					</div>
 					<h2 className="text-xl mt-1">Hi, {user?.fullName.split(" ")[0]}!</h2>
 				</div>
 				<div className="min-w-80 flex flex-col gap-y-2 mb-3">

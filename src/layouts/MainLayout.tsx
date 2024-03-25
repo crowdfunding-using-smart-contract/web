@@ -1,4 +1,4 @@
-import { CoreMenu, NavigationBar, UserProfileMenu } from "@/components";
+import { CoreMenu, NavigationBar, ProfilePictureModal, UserProfileMenu } from "@/components";
 import React from "react";
 
 type MainLayoutProps = {
@@ -11,6 +11,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 			<NavigationBar />
 			<CoreMenu />
 			<UserProfileMenu />
+			<ProfilePictureModal />
 			<main>{children}</main>
 		</React.Fragment>
 	);
