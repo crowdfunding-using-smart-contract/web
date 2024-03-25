@@ -25,3 +25,12 @@ export type RegisterPayload = {
 };
 
 export interface ResgisterResponse extends User {}
+
+export type RenewAccessTokenPayload = {
+	refreshToken: string;
+};
+
+export type RenewAccessTokenResponse = {
+	accessToken: string;
+	accessTokenExpiredAt: string;
+};

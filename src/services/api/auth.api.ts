@@ -1,5 +1,12 @@
 import { api } from "@/libs/api";
-import type { LoginPayload, LoginResponse, RegisterPayload, ResgisterResponse } from "@/types/auth";
+import type {
+	LoginPayload,
+	LoginResponse,
+	RegisterPayload,
+	RenewAccessTokenPayload,
+	RenewAccessTokenResponse,
+	ResgisterResponse,
+} from "@/types/auth";
 import type { ResultResponse } from "@/types/response";
 
 export async function login(params: LoginPayload): Promise<ResultResponse<LoginResponse>> {
@@ -10,6 +17,14 @@ export async function login(params: LoginPayload): Promise<ResultResponse<LoginR
 
 export async function register(params: RegisterPayload): Promise<ResultResponse<ResgisterResponse>> {
 	const { data } = await api.post("/api/auth/register", params);
+
+	return data;
+}
+
+export async function renewAccessToken(
+	payload: RenewAccessTokenPayload,
+): Promise<ResultResponse<RenewAccessTokenResponse>> {
+	const { data } = await api.post("/api/auth/renew-token", payload);
 
 	return data;
 }
