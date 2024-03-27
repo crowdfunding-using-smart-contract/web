@@ -1,5 +1,14 @@
 import { api } from "@/libs/api";
-import { CreatePostPayload, GetPostParams, ListPostsParams, Post } from "@/types/forum";
+import {
+	Post,
+	Reply,
+	Comment,
+	ListPostsParams,
+	GetPostParams,
+	CreatePostPayload,
+	CreateCommentPayload,
+	CreateReplyPayload,
+} from "@/types/forum";
 import { PaginateResult } from "@/types/pagination";
 import { ResultResponse } from "@/types/response";
 
@@ -17,6 +26,18 @@ export async function getPostById(params: GetPostParams): Promise<ResultResponse
 
 export async function createPost(payload: CreatePostPayload): Promise<ResultResponse<Post>> {
 	const { data } = await api.post("/api/posts", payload);
+
+	return data;
+}
+
+export async function createComment(payload: CreateCommentPayload): Promise<ResultResponse<Comment>> {
+	const { data } = await api.post(`/api/posts/${payload.postId}/comments`, { content: payload.content });
+
+	return data;
+}
+
+export async function createReply(payload: CreateReplyPayload): Promise<ResultResponse<Reply>> {
+	const { data } = await api.post(`/api/comments/${payload.commentId}/replies`, { content: payload.content });
 
 	return data;
 }

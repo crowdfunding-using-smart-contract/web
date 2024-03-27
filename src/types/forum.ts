@@ -15,6 +15,7 @@ export type Post = {
 export type Comment = {
 	id: string;
 	content: string;
+	author: User;
 	replies: Reply[];
 	createdAt: string;
 };
@@ -22,6 +23,7 @@ export type Comment = {
 export type Reply = {
 	id: string;
 	content: string;
+	author: User;
 	createdAt: string;
 };
 
@@ -40,4 +42,14 @@ export type CreatePostPayload = {
 	description: string;
 	content: string;
 	projectId: string;
+};
+
+export type CreateCommentPayload = {
+	postId: string;
+	content: string;
+};
+
+export type CreateReplyPayload = {
+	commentId: string;
+	content: string;
 };

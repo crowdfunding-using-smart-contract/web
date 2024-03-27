@@ -1,6 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CreatePostPayload, GetPostParams, ListPostsParams, Post } from "@/types/forum";
-import { createPost, getPostById, listPosts } from "../api/forum.api";
+import {
+	CreateCommentPayload,
+	CreatePostPayload,
+	CreateReplyPayload,
+	GetPostParams,
+	ListPostsParams,
+	Post,
+} from "@/types/forum";
+import { createComment, createPost, createReply, getPostById, listPosts } from "../api/forum.api";
 
 export const useListPostsQuery = (params: ListPostsParams) =>
 	useQuery({
@@ -25,6 +32,24 @@ export const useCreatePostMutation = () =>
 		mutationKey: ["post", "create"],
 		mutationFn: async (payload: CreatePostPayload) => {
 			const res = await createPost(payload);
+			return res.result;
+		},
+	});
+
+export const useCreateCommentMutation = () =>
+	useMutation({
+		mutationKey: ["post", "comment"],
+		mutationFn: async (payload: CreateCommentPayload) => {
+			const res = await createComment(payload);
+			return res.result;
+		},
+	});
+
+export const useCreateReplyMutation = () =>
+	useMutation({
+		mutationKey: ["post", "reply"],
+		mutationFn: async (payload: CreateReplyPayload) => {
+			const res = await createReply(payload);
 			return res.result;
 		},
 	});
