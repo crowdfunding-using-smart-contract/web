@@ -10,7 +10,7 @@ export default function ProjectCard({ projectId }: ProjectCardProps) {
 	return (
 		<div
 			className="relative flex min-w-80 flex-col rounded bg-white text-gray-700 border"
-			onClick={() => navigate(`/projects/${projectId}`)}
+			onClick={() => navigate(`/project/${projectId}`)}
 		>
 			<div className="relative flex m-0 rounded-t text-gray-700 max-h-[256px] border-b">
 				<img

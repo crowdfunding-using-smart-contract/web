@@ -69,7 +69,7 @@ export default function CoreMenu() {
 					<div className="w-48 flex flex-col bg-[#f8f8f8] shadow rounded-xl p-3 h-max">
 						<h4 className="text-lg font-semibold">Create</h4>
 						<div className="flex flex-col mt-3 gap-y-1.5">
-							<a href="/projects/new" className="w-full flex items-center hover:bg-[#eeeeee] px-2 py-1 rounded">
+							<a href="/project/new" className="w-full flex items-center hover:bg-[#eeeeee] px-2 py-1 rounded">
 								<div className="w-9 h-9 bg-gray-200 flex items-center justify-center rounded-full mr-3">
 									<AiOutlineProject size={20} />
 								</div>

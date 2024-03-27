@@ -68,7 +68,7 @@ function MenuList() {
 		<ul className="flex flex-col lg:flex-row text-xl sm:text-2xl lg:text-sm font-medium text-left gap-y-3 lg:gap-y-0 lg:gap-x-6 lg:mx-auto lg:my-0">
 			{navbarProducts.map((p) => (
 				<li key={p.label} className="menu-item">
-					<a href={`/projects?c=${p.url}`}>{p.label}</a>
+					<a href={`/project?c=${p.url}`}>{p.label}</a>
 				</li>
 			))}
 		</ul>

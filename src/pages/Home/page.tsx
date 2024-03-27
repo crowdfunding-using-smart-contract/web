@@ -8,7 +8,7 @@ export default function Homepage() {
 	const navigate = useNavigate();
 
 	function handleSearch(searchQuery: string): void {
-		navigate(`/projects?q=${searchQuery}`);
+		navigate(`/project?q=${searchQuery}`);
 		return;
 	}
 
