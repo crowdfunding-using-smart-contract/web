@@ -15,6 +15,12 @@ export async function createProject(payload: CreateProjectPayload): Promise<Resu
 	return data;
 }
 
+export async function getProjectById(id?: string): Promise<ResultResponse<Project>> {
+	const { data } = await api.get(`/api/projects/${id}`);
+
+	return data;
+}
+
 export async function getOwnProjects(): Promise<ResultResponse<Project[]>> {
 	const { data } = await api.get("/api/projects/me");
 
