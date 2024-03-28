@@ -1,10 +1,11 @@
+import { useNavigate } from "react-router-dom";
+import { Editor } from "@/components";
+import { Toast } from "@/libs/sweetalert2";
 import { Field, Form, Formik } from "formik";
-import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
 import * as Yup from "yup";
 import type { CreatePostPayload } from "@/types/forum";
 import { useGetOwnProjectsQuery } from "@/services/query/project.query";
 import { useCreatePostMutation } from "@/services/query/forum.query";
-import { Toast } from "@/libs/sweetalert2";
 
 const CreatePostSchema = Yup.object().shape({
 	projectId: Yup.string().required("Required"),
@@ -14,9 +15,9 @@ const CreatePostSchema = Yup.object().shape({
 });
 
 export default function NewForumPage() {
-	const editor = useCreateBlockNote();
 	const { isPending: fetchingProjects, data: projects } = useGetOwnProjectsQuery();
 	const { isSuccess, isError, isPending: creatingPost, mutateAsync: createPostAsync } = useCreatePostMutation();
+	const navigate = useNavigate();
 
 	if (fetchingProjects || !projects) return <div className="pt-44">Loading...</div>;
 
@@ -41,13 +42,21 @@ export default function NewForumPage() {
 		});
 	}
 
-	async function onSubmitHandler(values: CreatePostPayload) {
+	async function onSubmitHandler(values: CreatePostPayload, { resetForm }: { resetForm: () => void }) {
 		await createPostAsync(values);
+		resetForm();
+		navigate("/forum");
 	}
 
 	return (
-		<Formik initialValues={initialValues} onSubmit={onSubmitHandler} validationSchema={CreatePostSchema}>
-			{({ values, errors, touched, setValues }) => (
+		<Formik
+			initialValues={initialValues}
+			onSubmit={(values, { resetForm }) => {
+				onSubmitHandler(values, { resetForm });
+			}}
+			validationSchema={CreatePostSchema}
+		>
+			{({ errors, touched, setFieldValue }) => (
 				<Form className="max-w-screen-lg mx-auto pt-32 px-4">
 					<div className="flex flex-col items-center">
 						<h1 className="text-[32px] text-[#222222] mb-3">Start a Forum</h1>
@@ -110,10 +119,7 @@ export default function NewForumPage() {
 							Write the clear description that describe what your project working on and target of your project.
 						</p>
 						<div className="border mt-3 py-5">
-							<BlockNoteView
-								editor={editor}
-								onChange={() => setValues({ ...values, content: JSON.stringify(editor.document) })}
-							/>
+							<Editor onChange={(content) => setFieldValue("content", content)} />
 						</div>
 					</div>
 					<div className="flex mt-8 mb-24">
