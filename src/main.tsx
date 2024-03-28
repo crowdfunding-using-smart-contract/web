@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import i18n from "i18next";
@@ -16,8 +15,4 @@ import "./index.css";
 dayjs.extend(relativeTime);
 i18n.use(initReactI18next).init(i18nOptions);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
-);
+ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

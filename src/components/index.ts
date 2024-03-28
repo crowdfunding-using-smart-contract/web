@@ -13,3 +13,4 @@ export { default as ImagePicker } from "./Picker/ImagePicker/ImagePicker";
 export { default as CoreMenu } from "./Menu/Core/CoreMenu";
 export { default as UserProfileMenu } from "./Menu/UserProfile/UserProfileMenu";
 export { default as ProfilePictureModal } from "./Modal/ProfilePictureModal/ProfilePictureModal";
+export { default as Editor } from "./Editor/Editor";

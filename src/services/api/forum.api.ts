@@ -1,4 +1,5 @@
 import { api } from "@/libs/api";
+import { parseToFormData } from "@/libs/formData";
 import {
 	Post,
 	Reply,
@@ -38,6 +39,18 @@ export async function createComment(payload: CreateCommentPayload): Promise<Resu
 
 export async function createReply(payload: CreateReplyPayload): Promise<ResultResponse<Reply>> {
 	const { data } = await api.post(`/api/comments/${payload.commentId}/replies`, { content: payload.content });
+
+	return data;
+}
+
+export async function uploadPostImage(payload: { image: File }): Promise<{ success: number; file: { url: string } }> {
+	const formData = parseToFormData<{ image: File }>(payload);
+
+	const { data } = await api.post("/api/posts/upload", formData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
 
 	return data;
 }
