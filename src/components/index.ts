@@ -3,6 +3,8 @@ export { default as RegisterForm } from "./Form/RegisterForm";
 export { default as NavigationBar } from "./Bar/Navigation/NavigationBar";
 export { default as SearchBar } from "./Bar/Search/SearchBar";
 export { default as ProjectCard } from "./Card/ProjectCard";
+export { default as PostCommentCard } from "./Card/PostCommentCard";
+export { default as PostNoCommentCard } from "./Card/PostNoCommentCard";
 export { default as CreateProjectButton } from "./Button/CreateProject/CreateProjectButton";
 export { default as Footer } from "./Footer/Footer";
 export { default as DatePicker } from "./Picker/Date/DatePicker";
