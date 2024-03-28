@@ -75,7 +75,7 @@ export default function CoreMenu() {
 								</div>
 								<span>Project</span>
 							</a>
-							<a href="/forum/new" className="w-full flex items-center hover:bg-[#eeeeee] px-2 py-1 rounded">
+							<a href="/post/new" className="w-full flex items-center hover:bg-[#eeeeee] px-2 py-1 rounded">
 								<div className="w-9 h-9 bg-gray-200 flex items-center justify-center rounded-full mr-3">
 									<PiNotePencil size={20} />
 								</div>
