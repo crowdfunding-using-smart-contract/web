@@ -4,6 +4,7 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { useGetProjectByIdQuery } from "@/services/query/project.query";
 import dayjs from "dayjs";
+import { Button } from "@mantine/core";
 
 export default function ProjectDetail() {
 	const { projectId } = useParams();
@@ -72,9 +73,9 @@ export default function ProjectDetail() {
 							{dayjs(project.endDate).from(dayjs(project.startDate), true)} left
 						</span>
 					</div>
-					<button className="bg-[#5340ff] text-white h-max py-2.5 px-12 rounded-lg text-lg font-medium shadow-lg">
+					<Button size={"lg"} className="bg-primary">
 						Back this project
-					</button>
+					</Button>
 				</div>
 			</section>
 		</React.Fragment>

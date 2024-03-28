@@ -30,7 +30,7 @@ export default function CoreMenu() {
 						<div className="flex flex-col my-3 gap-y-1">
 							<h5 className="font-medium">Social</h5>
 							<div className="flex flex-col gap-y-1.5">
-								<a href="/forum" className="flex items-center gap-x-6 hover:bg-[#eeeeee] px-2 py-1 rounded">
+								<a href="/project" className="flex items-center gap-x-6 hover:bg-[#eeeeee] px-2 py-1 rounded">
 									<img src="/assets/icons/project.png" alt="project" className="w-6 h-6" />
 									<div className="flex flex-col">
 										<h6 className="">Projects</h6>
