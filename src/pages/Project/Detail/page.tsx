@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { useGetProjectByIdQuery } from "@/services/query/project.query";
 import dayjs from "dayjs";
 import { Button } from "@mantine/core";
+import { RatingCard } from "@/components";
+import { rateProject, verifyProjectRating } from "@/services/api/project.api";
 
 export default function ProjectDetail() {
 	const { projectId } = useParams();
 	const { isLoading: fetchingProject, data: project } = useGetProjectByIdQuery(projectId);
+	const [isOpenRating, setIsOpenRating] = useState(false);
+
+	async function handleSubmitRating(value: number) {
+		if (!projectId) return;
+		await rateProject(projectId, value);
+	}
+
+	useEffect(() => {
+		async function verifyRating() {
+			if (projectId) {
+				const response = await verifyProjectRating(projectId);
+				if (response.statusCode === 200) {
+					setIsOpenRating(response.result);
+				}
+			}
+		}
+		verifyRating();
+	}, [projectId]);
 
 	if (fetchingProject) {
 		return <div>Loading...</div>;
@@ -78,6 +98,12 @@ export default function ProjectDetail() {
 					</Button>
 				</div>
 			</section>
+			{/* {JSON.stringify(isVerifiedProject)} */}
+			<RatingCard
+				isOpen={!isOpenRating}
+				onClose={() => setIsOpenRating(true)}
+				onSubmit={(v) => handleSubmitRating(v)}
+			/>
 		</React.Fragment>
 	);
 }
