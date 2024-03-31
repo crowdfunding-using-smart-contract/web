@@ -1,6 +1,15 @@
-import { CreateProjectPayload, Project } from "@/types/project";
+import { CreateProjectPayload, ListProjectParams, Project } from "@/types/project";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createProject, getOwnProjects, getProjectById } from "../api/project.api";
+import { createProject, getOwnProjects, getProjectById, listProjects } from "../api/project.api";
+
+export const useListProjectsQuery = (params: ListProjectParams) =>
+	useQuery({
+		queryKey: ["project", "list"],
+		queryFn: async () => {
+			const res = await listProjects(params);
+			return res.result;
+		},
+	});
 
 export const useCreateProjectMutation = () =>
 	useMutation({

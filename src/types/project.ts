@@ -1,20 +1,6 @@
 import type { ProjectCategory, ProjectSubCategory } from "./projectCategory";
 import type { User } from "./user";
 
-export type CreateProjectPayload = {
-	title: string;
-	subTitle: string;
-	categoryId: string;
-	subCategoryId: string;
-	location: string;
-	image: File | null;
-	description: string;
-	targetFunding: number;
-	monetaryUnit: string;
-	endDate: Date | null;
-	lanuchDate: Date | null;
-};
-
 export type Project = {
 	id: string;
 	title: string;
@@ -32,4 +18,25 @@ export type Project = {
 	launchDate: string;
 	owner: User;
 	createdAt: string;
+};
+
+// Secondary types
+
+export type CreateProjectPayload = {
+	title: string;
+	subTitle: string;
+	categoryId: string;
+	subCategoryId: string;
+	location: string;
+	image: File | null;
+	description: string;
+	targetFunding: number;
+	monetaryUnit: string;
+	endDate: Date | null;
+	lanuchDate: Date | null;
+};
+
+export type ListProjectParams = {
+	page?: number;
+	size?: number;
 };
