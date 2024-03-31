@@ -1,5 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Homepage, LoginPage, NewProjectPage, Profile, ProjectDetail, ProjectList, RegisterPage } from "../pages";
+import {
+	ForumDetailPage,
+	ForumList,
+	Homepage,
+	LoginPage,
+	NewForumPage,
+	NewProjectPage,
+	Profile,
+	ProjectDetail,
+	ProjectList,
+	RegisterPage,
+} from "../pages";
 
 function Router() {
 	return (
@@ -8,10 +19,13 @@ function Router() {
 				<Route path="/" element={<Homepage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/signup" element={<RegisterPage />} />
-				<Route path="/projects/new" element={<NewProjectPage />} />
-				<Route path="/projects" element={<ProjectList />} />
-				<Route path="/projects/:projectId" element={<ProjectDetail />} />
+				<Route path="/project/new" element={<NewProjectPage />} />
+				<Route path="/project" element={<ProjectList />} />
+				<Route path="/project/:projectId" element={<ProjectDetail />} />
 				<Route path="/profile" element={<Profile />} />
+				<Route path="/forum" element={<ForumList />} />
+				<Route path="/post/new" element={<NewForumPage />} />
+				<Route path="/post/:postId" element={<ForumDetailPage />} />
 			</Routes>
 		</BrowserRouter>
 	);

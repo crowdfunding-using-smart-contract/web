@@ -1,7 +1,10 @@
 export { default as Homepage } from "./Home/page";
 export { default as LoginPage } from "./Login/page";
 export { default as RegisterPage } from "./Register/page";
-export { default as NewProjectPage } from "./Projects/New/page";
-export { default as ProjectList } from "./Projects/List/page";
-export { default as ProjectDetail } from "./Projects/Detail/page";
+export { default as NewProjectPage } from "./Project/New/page";
+export { default as ProjectList } from "./Project/List/page";
+export { default as ProjectDetail } from "./Project/Detail/page";
 export { default as Profile } from "./Profile/page";
+export { default as ForumList } from "./Forum/List/page";
+export { default as NewForumPage } from "./Forum/New/page";
+export { default as ForumDetailPage } from "./Forum/Detail/page";

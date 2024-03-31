@@ -1,4 +1,5 @@
 import { ProjectCard } from "@/components";
+import { useListProjectsQuery } from "@/services/query/project.query";
 import { useListProjectCategoryQuery } from "@/services/query/projectCategory.query";
 import { ComboboxItem, Pagination, Select } from "@mantine/core";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -6,12 +7,13 @@ import { IoMdSearch } from "react-icons/io";
 import { useSearchParams } from "react-router-dom";
 
 export default function ProjectList() {
-	const { isPending, data: categories } = useListProjectCategoryQuery();
+	const { isPending: fetchingProjectCategories, data: categories } = useListProjectCategoryQuery();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [page, setPage] = useState<number>(parseInt(searchParams.get("page") || "1", 10));
 	const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 	const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+	const { isPending: fetchingProjects, data: projects } = useListProjectsQuery({ page, size: 10 });
 
 	function onSubmitHandler(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -72,8 +74,8 @@ export default function ProjectList() {
 		}
 	}, [searchParams, searchQuery, setSearchParams]);
 
-	if (isPending || !categories) {
-		return <div>Loading...</div>;
+	if (fetchingProjectCategories || fetchingProjects || !categories || !projects) {
+		return <div className="pt-32">Loading...</div>;
 	}
 
 	return (

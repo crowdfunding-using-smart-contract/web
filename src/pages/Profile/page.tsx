@@ -89,7 +89,7 @@ export default function ProfilePage() {
 				{currentSection === "created" && (
 					<div className="max-w-screen-lg mx-auto my-16">
 						<span>You don’t have any own project. Let’s create your idea!</span>
-						<a href="/projects/new" className="underline ml-2 text-[#5340FF]">
+						<a href="/project/new" className="underline ml-2 text-[#5340FF]">
 							Create Project
 						</a>
 					</div>

@@ -6,7 +6,7 @@ export type LoginPayload = {
 };
 
 export type LoginResponse = {
-	sessionID: string;
+	sessionId: string;
 	accessToken: string;
 	accessTokenExpiredAt: string;
 	refreshToken: string;
@@ -25,3 +25,12 @@ export type RegisterPayload = {
 };
 
 export interface ResgisterResponse extends User {}
+
+export type RenewAccessTokenPayload = {
+	refreshToken: string;
+};
+
+export type RenewAccessTokenResponse = {
+	accessToken: string;
+	accessTokenExpiredAt: string;
+};
