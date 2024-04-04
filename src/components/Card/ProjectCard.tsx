@@ -18,13 +18,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 	const navigate = useNavigate();
 	// const [isHovering, setIsHovering] = useState(false);
 
-	const percentFunded = (project.currentFunding / project.targetFunding) * 100;
+	function percentFunded(cur: number, tar: number) {
+		return (cur / tar) * 100;
+	}
 
 	function formatDaysLeft(dateStr: string) {
 		const endDate = dayjs(dateStr);
 		const difference = endDate.diff(dayjs(), "day");
 		return difference;
 	}
+
+	if (!project) return null;
 
 	return (
 		<motion.div
@@ -39,7 +43,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 			<motion.div
 				className="w-full h-2 bg-primary rounded-bl-lg"
 				initial={{ width: 0 }}
-				animate={{ width: `${percentFunded}%` }}
+				animate={{ width: `${percentFunded(project.currentFunding, project.targetFunding)}%` }}
 				transition={{ duration: 1 }}
 			></motion.div>
 			<div className="flex mt-4 gap-x-3">
@@ -59,7 +63,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 							<span>{formatDaysLeft(project.endDate)} days left</span>
 						</div>
 						<span className="text-2xl mx-1">⋅</span>
-						<span>{percentFunded}% funded</span>
+						<span>{percentFunded(project.currentFunding, project.targetFunding)}% funded</span>
 					</div>
 					<p id="text" className="line-clamp-3 font-light text-sm">
 						{project.description}

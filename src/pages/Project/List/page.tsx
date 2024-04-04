@@ -135,10 +135,6 @@ export default function ProjectList() {
 					styles={{
 						control: {
 							color: "#222",
-
-							"&[data-active]:hover": {
-								color: "#fff",
-							},
 						},
 					}}
 				/>
