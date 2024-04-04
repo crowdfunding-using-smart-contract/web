@@ -6,6 +6,7 @@ export { default as ProjectCard } from "./Card/ProjectCard";
 export { default as PostCommentCard } from "./Card/PostCommentCard";
 export { default as PostNoCommentCard } from "./Card/PostNoCommentCard";
 export { default as RatingCard } from "./Card/RatingCard";
+export { default as ConnectWalletButton } from "./Button/ConnectWallet/ConnectWalletButton";
 export { default as CreateProjectButton } from "./Button/CreateProject/CreateProjectButton";
 export { default as Footer } from "./Footer/Footer";
 export { default as DatePicker } from "./Picker/Date/DatePicker";

@@ -1,3 +1,4 @@
+import { ConnectWalletButton } from "@/components";
 import useAuthStore from "@/store/useAuthStore";
 import dayjs from "dayjs";
 import React from "react";
@@ -27,7 +28,7 @@ export default function ProfilePage() {
 			<header className="max-w-screen-lg mx-auto pt-32">
 				<div className="flex flex-col text-center">
 					{user.profileImage ? (
-						<img src={user.profileImage} alt="Profile" className="w-20 h-20 rounded-full mx-auto" />
+						<img src={user.profileImage} alt="Profile" className="w-20 h-20 rounded-full mx-auto object-cover" />
 					) : (
 						<div className="w-36 h-36 rounded-full mx-auto bg-[#BBBBBB] flex items-center justify-center text-4xl text-gray-900">
 							{user.fullName[0]}
@@ -79,9 +80,10 @@ export default function ProfilePage() {
 						</div>
 						<div className="mt-16">
 							<h3 className="text-xl font-semibold">Payment</h3>
-							<div className="flex flex-col w-1/2 mt-8">
-								<span>Crypto Wallet</span>
-								<span className="mt-2 border p-2 text-gray-400">0x7f533b5fbf6ef86c3b7df76cc27fc67744a9a760</span>
+							<div className="flex flex-col w-1/2 mt-3">
+								<ConnectWalletButton />
+								{/* <span>Crypto Wallet</span> */}
+								{/* <span className="mt-2 border p-2 text-gray-400">0x7f533b5fbf6ef86c3b7df76cc27fc67744a9a760</span> */}
 							</div>
 						</div>
 					</div>
