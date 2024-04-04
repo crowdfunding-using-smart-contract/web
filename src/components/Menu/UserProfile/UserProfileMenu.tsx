@@ -7,9 +7,14 @@ import useGlobalStore from "@/store/useGlobalStore";
 import { useState } from "react";
 
 export default function UserProfileMenu() {
-	const { user } = useAuthStore();
+	const { user, signOut } = useAuthStore();
 	const { isProfileMenuActivated, setProfileMenuActivated, setIsOpenProfilePicutureModal } = useGlobalStore();
 	const [isHoveringProfilePicture, setIsHoveringProfilePicture] = useState(false);
+
+	function handleSignOut() {
+		signOut();
+		setProfileMenuActivated(false);
+	}
 
 	if (!isProfileMenuActivated) {
 		return null;
@@ -54,12 +59,12 @@ export default function UserProfileMenu() {
 						</div>
 						<span>Profile</span>
 					</a>
-					<a href="/profile" className="flex items-center gap-x-3 py-2 px-4 rounded-md hover:bg-gray-100">
+					<button onClick={handleSignOut} className="flex items-center gap-x-3 py-2 px-4 rounded-md hover:bg-gray-100">
 						<div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">
 							<VscSignOut size={20} />
 						</div>
 						<span>Sign out</span>
-					</a>
+					</button>
 				</div>
 				<div className="flex justify-center text-xs font-medium gap-x-2 my-2">
 					<button className="py-0.5 px-1.5 rounded hover:bg-gray-100">Privacy Policy</button>

@@ -11,4 +11,8 @@ const setCookie = (key: string, value: unknown) => {
 	document.cookie = `${key}=${JSON.stringify(value)}`;
 };
 
-export { getCookie, setCookie };
+const removeCookie = (key: string) => {
+	document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
+
+export { getCookie, setCookie, removeCookie };
