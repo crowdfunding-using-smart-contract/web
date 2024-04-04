@@ -118,13 +118,30 @@ export default function ProjectList() {
 					onChange={(_value, options) => onChangeSubcategoryHandler(options)}
 				/>
 			</div>
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-2">
-				{Array.from({ length: 5 }).map((_, index) => (
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
+				{/* {Array.from({ length: 5 }).map((_, index) => (
 					<ProjectCard projectId={`${index + 1}`} key={index} />
+				))} */}
+				{projects.data.map((p) => (
+					<ProjectCard project={p} key={p.id} />
 				))}
 			</div>
 			<div className="flex justify-center my-16">
-				<Pagination total={10} color="#5340ff" value={page} onChange={(value) => onChangePageHandler(value)} />
+				<Pagination
+					total={projects.lastPage}
+					color="#5340ff"
+					value={page}
+					onChange={(value) => onChangePageHandler(value)}
+					styles={{
+						control: {
+							color: "#222",
+
+							"&[data-active]:hover": {
+								color: "#fff",
+							},
+						},
+					}}
+				/>
 			</div>
 		</div>
 	);
