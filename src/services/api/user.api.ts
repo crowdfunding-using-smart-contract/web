@@ -13,3 +13,9 @@ export async function updateUserById(id: string, payload: UpdateUserPayload): Pr
 
 	return data;
 }
+
+export async function getCurrentUser(): Promise<ResultResponse<User>> {
+	const { data } = await api.get("/api/users/me");
+
+	return data;
+}

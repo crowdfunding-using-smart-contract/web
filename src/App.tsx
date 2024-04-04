@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
+import { MetaMaskProvider } from "@metamask/sdk-react";
 import Router from "./routes";
 import MainLayout from "./layouts/MainLayout";
 
@@ -9,9 +10,19 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<MantineProvider>
-				<MainLayout>
-					<Router />
-				</MainLayout>
+				<MetaMaskProvider
+					debug={true}
+					sdkOptions={{
+						dappMetadata: {
+							name: "FundO DApp",
+							url: window.location.href,
+						},
+					}}
+				>
+					<MainLayout>
+						<Router />
+					</MainLayout>
+				</MetaMaskProvider>
 			</MantineProvider>
 		</QueryClientProvider>
 	);

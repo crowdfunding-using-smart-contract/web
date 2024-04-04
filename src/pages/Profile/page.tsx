@@ -1,14 +1,36 @@
+import { ConnectWalletButton, SaveChangeModal } from "@/components";
 import useAuthStore from "@/store/useAuthStore";
+import useGlobalStore from "@/store/useGlobalStore";
+import { Button } from "@mantine/core";
 import dayjs from "dayjs";
-import React from "react";
+import { useFormik } from "formik";
+import React, { useState, useEffect } from "react";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 export default function ProfilePage() {
-	const { isAuthenticated, user } = useAuthStore();
-	const [currentSection, setCurrentSection] = React.useState<"about" | "created" | "backed">("about");
+	const { isAuthenticated, user, getCurrentUserAsync, updateUserByIdAsync } = useAuthStore();
+	const [currentSection, setCurrentSection] = useState<"about" | "created" | "backed">("about");
+	const { setIsOpenProfilePicutureModal } = useGlobalStore();
+	const [isHoveringProfilePicture, setIsHoveringProfilePicture] = useState(false);
+
+	const formik = useFormik({
+		initialValues: {
+			displayName: user?.displayName,
+		},
+		onSubmit: async (values, { resetForm }) => {
+			if (!user) return;
+			await updateUserByIdAsync(user.id, values);
+			resetForm({ values: { displayName: values.displayName } });
+		},
+	});
 
 	function onSectionChange(section: "about" | "created" | "backed") {
 		setCurrentSection(section);
 	}
+
+	useEffect(() => {
+		getCurrentUserAsync();
+	}, []);
 
 	if (!isAuthenticated || !user) {
 		return (
@@ -26,14 +48,33 @@ export default function ProfilePage() {
 		<React.Fragment>
 			<header className="max-w-screen-lg mx-auto pt-32">
 				<div className="flex flex-col text-center">
-					{user.profileImage ? (
-						<img src={user.profileImage} alt="Profile" className="w-20 h-20 rounded-full mx-auto" />
+					<div
+						className="w-48 h-48 mx-auto bg-indigo-500 text-gray-100 rounded-full relative cursor-pointer"
+						onMouseEnter={() => setIsHoveringProfilePicture(true)}
+						onMouseLeave={() => setIsHoveringProfilePicture(false)}
+						onClick={() => setIsOpenProfilePicutureModal(true)}
+					>
+						{user?.profileImage ? (
+							<img src={user.profileImage} className="w-full h-full object-cover rounded-full" />
+						) : (
+							<div className="text-2xl font-bold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+								{user?.fullName[0]}
+							</div>
+						)}
+						<div
+							className={`${isHoveringProfilePicture ? "bg-gray-300" : "bg-gray-200"} absolute bottom-4 right-4 w-6 h-6 rounded-full flex items-center justify-center`}
+						>
+							<MdOutlineModeEdit size={16} color={isHoveringProfilePicture ? "#2563eb" : "#222"} />
+						</div>
+					</div>
+					{/* {user.profileImage ? (
+						<img src={user.profileImage} alt="Profile" className="w-20 h-20 rounded-full mx-auto object-cover" />
 					) : (
 						<div className="w-36 h-36 rounded-full mx-auto bg-[#BBBBBB] flex items-center justify-center text-4xl text-gray-900">
 							{user.fullName[0]}
 						</div>
-					)}
-					<h2 className="font-bold text-2xl mt-3">{user.fullName}</h2>
+					)} */}
+					<h2 className="font-bold text-3xl mt-3">{user.fullName}</h2>
 					<span className="text-[#BBBBBB]">
 						Joined at {dayjs(user.createdAt).format("MMMM")} {dayjs(user.createdAt).format("YYYY")}
 					</span>
@@ -64,24 +105,43 @@ export default function ProfilePage() {
 				<hr />
 				{currentSection === "about" && (
 					<div className="max-w-screen-lg mx-auto my-16">
-						<div>
+						<div className="flex flex-col">
 							<h3 className="text-xl font-semibold">Account</h3>
-							<div className="flex flex-col w-1/2 mt-8">
-								<span>Email</span>
-								<span className="mt-2 border p-2 text-gray-400">{user.email}</span>
-							</div>
-							<div className="flex flex-col w-1/2 mt-4">
-								<span>Password</span>
-								<button className="mt-2 py-2 px-12 border border-[#5340FF] text-[#5340FF] w-max">
-									Change Password
-								</button>
+							<div className="flex flex-col w-1/2 mt-2.5 gap-y-2.5">
+								<div className="flex flex-col">
+									<label htmlFor="displayName">Display name</label>
+									<input
+										id="displayName"
+										name="displayName"
+										type="text"
+										value={formik.values.displayName}
+										onChange={formik.handleChange}
+										className="mt-2 border p-2 focus:outline-indigo-500"
+									/>
+								</div>
+								<div className="flex flex-col">
+									<span>Email</span>
+									<div className="flex items-center">
+										<input
+											type="text"
+											value={user.email}
+											disabled={true}
+											className="mt-2 flex-1 border p-2 disabled:text-gray-400"
+										/>
+									</div>
+								</div>
+								<div className="flex flex-col">
+									<span>Password</span>
+									<Button size="md" className="mt-2 py-2 px-8 border border-primary text-primary w-max">
+										Change Password
+									</Button>
+								</div>
 							</div>
 						</div>
-						<div className="mt-16">
+						<div className="flex flex-col mt-8">
 							<h3 className="text-xl font-semibold">Payment</h3>
-							<div className="flex flex-col w-1/2 mt-8">
-								<span>Crypto Wallet</span>
-								<span className="mt-2 border p-2 text-gray-400">0x7f533b5fbf6ef86c3b7df76cc27fc67744a9a760</span>
+							<div className="flex flex-col w-1/2 mt-3">
+								<ConnectWalletButton />
 							</div>
 						</div>
 					</div>
@@ -100,6 +160,7 @@ export default function ProfilePage() {
 					</div>
 				)}
 			</section>
+			<SaveChangeModal active={formik.dirty} onReset={formik.resetForm} onSubmit={formik.handleSubmit} />
 		</React.Fragment>
 	);
 }
