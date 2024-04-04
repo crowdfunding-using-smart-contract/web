@@ -53,7 +53,6 @@ const useAuthStore = create<AuthStore>()(
 				try {
 					const res = await getCurrentUser();
 					if (res.statusCode === 200) {
-						console.log(res);
 						setItem("active_user", res.result);
 						set(() => ({ user: res.result }));
 					}
