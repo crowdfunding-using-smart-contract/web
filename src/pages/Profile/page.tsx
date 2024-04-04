@@ -1,15 +1,19 @@
 import { ConnectWalletButton } from "@/components";
 import useAuthStore from "@/store/useAuthStore";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function ProfilePage() {
-	const { isAuthenticated, user } = useAuthStore();
-	const [currentSection, setCurrentSection] = React.useState<"about" | "created" | "backed">("about");
+	const { isAuthenticated, user, getCurrentUserAsync } = useAuthStore();
+	const [currentSection, setCurrentSection] = useState<"about" | "created" | "backed">("about");
 
 	function onSectionChange(section: "about" | "created" | "backed") {
 		setCurrentSection(section);
 	}
+
+	useEffect(() => {
+		getCurrentUserAsync();
+	}, []);
 
 	if (!isAuthenticated || !user) {
 		return (

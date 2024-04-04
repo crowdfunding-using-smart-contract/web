@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { logger } from "./logger";
 import { getItem, setItem } from "@/libs/localStorage";
 import { UpdateUserPayload, User } from "@/types/user";
-import { updateUserById } from "@/services/api/user.api";
+import { getCurrentUser, updateUserById } from "@/services/api/user.api";
 import { LoginPayload } from "@/types/auth";
 import { login } from "@/services/api/auth.api";
 import { setCookie } from "@/libs/cookie";
@@ -16,6 +16,7 @@ export interface AuthStore extends AuthState {
 	setIsAuthenticated: (args: AuthState["isAuthenticated"]) => void;
 	setUser: (args: AuthState["user"]) => void;
 	loginAsync: (payload: LoginPayload) => Promise<void>;
+	getCurrentUserAsync: () => Promise<void>;
 	updateUserByIdAsync: (id: string, payload: UpdateUserPayload) => Promise<void>;
 }
 
@@ -46,6 +47,18 @@ const useAuthStore = create<AuthStore>()(
 					setCookie("access_token_expired_at", res.result.accessTokenExpiredAt);
 					setCookie("refresh_token", res.result.refreshToken);
 					setCookie("refresh_token_expired_at", res.result.refreshTokenExpiredAt);
+				}
+			},
+			getCurrentUserAsync: async () => {
+				try {
+					const res = await getCurrentUser();
+					if (res.statusCode === 200) {
+						console.log(res);
+						setItem("active_user", res.result);
+						set(() => ({ user: res.result }));
+					}
+				} catch (error) {
+					console.error("Failed to get current user: ", error);
 				}
 			},
 			updateUserByIdAsync: async (id, payload) => {
