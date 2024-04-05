@@ -3,13 +3,16 @@ import "./style.css";
 import useAuthStore from "@/store/useAuthStore";
 import { CgMenuGridO } from "react-icons/cg";
 import { navbarProducts } from "@/constants/menu";
+import { useLocation } from "react-router-dom";
 
 export default function NavigationBar() {
 	const { isMenuActivated, toggleMenu, setCoreMenuActivated, setProfileMenuActivated } = useGlobalStore();
 	const { isAuthenticated, user } = useAuthStore();
-	const { pathname } = window.location;
+	// const { pathname } = window.location;
+	const location = useLocation();
+	console.log(location);
 
-	if (pathname === "/login" || pathname === "/signup") {
+	if (location.pathname === "/login" || location.pathname === "/signup") {
 		return null;
 	}
 

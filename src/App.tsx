@@ -1,8 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
 import { MetaMaskProvider } from "@metamask/sdk-react";
-import Router from "./routes";
-import MainLayout from "./layouts/MainLayout";
+import router from "./routes";
+import { RouterProvider } from "react-router-dom";
+// import MainLayout from "./layouts/MainLayout";
 
 function App() {
 	const queryClient = new QueryClient();
@@ -19,9 +20,7 @@ function App() {
 						},
 					}}
 				>
-					<MainLayout>
-						<Router />
-					</MainLayout>
+					<RouterProvider router={router} />
 				</MetaMaskProvider>
 			</MantineProvider>
 		</QueryClientProvider>

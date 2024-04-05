@@ -1,18 +1,17 @@
 import { CoreMenu, NavigationBar, ProfilePictureModal, UserProfileMenu } from "@/components";
 import React from "react";
+import { Outlet } from "react-router-dom";
 
-type MainLayoutProps = {
-	children: React.ReactNode;
-};
-
-export default function MainLayout({ children }: MainLayoutProps) {
+export default function MainLayout() {
 	return (
 		<React.Fragment>
 			<NavigationBar />
 			<CoreMenu />
 			<UserProfileMenu />
 			<ProfilePictureModal />
-			<main>{children}</main>
+			<main>
+				<Outlet />
+			</main>
 		</React.Fragment>
 	);
 }
