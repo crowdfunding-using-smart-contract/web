@@ -36,7 +36,12 @@ export type CreateProjectPayload = {
 	lanuchDate: Date | null;
 };
 
+export type UpdateProjectPayload = Partial<CreateProjectPayload>;
+
 export type ListProjectParams = {
 	page?: number;
 	size?: number;
+	q?: string;
+	category?: string;
+	subcategory?: string;
 };
