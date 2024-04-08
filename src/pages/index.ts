@@ -8,3 +8,4 @@ export { default as Profile } from "./Profile/page";
 export { default as ForumList } from "./Forum/List/page";
 export { default as NewForumPage } from "./Forum/New/page";
 export { default as ForumDetailPage } from "./Forum/Detail/page";
+export { default as ChatPage } from "./Chat/page";

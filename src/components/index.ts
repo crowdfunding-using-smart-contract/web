@@ -19,3 +19,4 @@ export { default as UserProfileMenu } from "./Menu/UserProfile/UserProfileMenu";
 export { default as ProfilePictureModal } from "./Modal/ProfilePictureModal/ProfilePictureModal";
 export { default as SaveChangeModal } from "./Modal/SaveChangeModal/SaveChangeModal";
 export { default as Editor } from "./Editor/Editor";
+export { default as ProfileImage } from "./Image/ProfileImage";

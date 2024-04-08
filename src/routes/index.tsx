@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import {
+	ChatPage,
 	ForumDetailPage,
 	ForumList,
 	Homepage,
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
 			{
 				path: "/post/:postId",
 				element: <ForumDetailPage />,
+			},
+			{
+				path: "/chat",
+				element: <ChatPage />,
 			},
 		],
 	},

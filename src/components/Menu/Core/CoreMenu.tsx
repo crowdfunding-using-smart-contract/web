@@ -54,7 +54,7 @@ export default function CoreMenu() {
 										</p>
 									</div>
 								</a>
-								<a href="/forum" className="flex items-center gap-x-6 hover:bg-[#eeeeee] px-2 py-1 rounded">
+								<a href="/chat" className="flex items-center gap-x-6 hover:bg-[#eeeeee] px-2 py-1 rounded">
 									<img src="/assets/icons/chat.png" alt="project" className="w-6 h-6" />
 									<div className="flex flex-col">
 										<h6 className="">Chat</h6>

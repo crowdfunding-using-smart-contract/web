@@ -10,7 +10,6 @@ export default function NavigationBar() {
 	const { isAuthenticated, user } = useAuthStore();
 	// const { pathname } = window.location;
 	const location = useLocation();
-	console.log(location);
 
 	if (location.pathname === "/login" || location.pathname === "/signup") {
 		return null;
