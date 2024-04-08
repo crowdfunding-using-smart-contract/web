@@ -5,6 +5,7 @@ import { Formik, Form, Field } from "formik";
 import { CreateProjectPayload } from "@/types/project";
 import { useCreateProjectMutation } from "@/services/query/project.query";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 const CreateProjectSchema = Yup.object().shape({
 	title: Yup.string().min(2, "Too Short!").max(70, "Too Long!").required("Required"),
@@ -19,6 +20,7 @@ const CreateProjectSchema = Yup.object().shape({
 export default function NewProjectPage() {
 	const { isPending, data: categories } = useListProjectCategoryQuery();
 	const { isPending: isLoadingCreateProject, mutateAsync: createProjectAsync } = useCreateProjectMutation();
+	const navigate = useNavigate();
 
 	if (isPending || !categories) return <div>Loading...</div>;
 
@@ -39,6 +41,7 @@ export default function NewProjectPage() {
 	async function onSubmitHandler(values: CreateProjectPayload) {
 		try {
 			await createProjectAsync(values);
+			navigate("/project", { replace: true });
 		} catch (error) {
 			console.error(error);
 		}
@@ -70,7 +73,7 @@ export default function NewProjectPage() {
 						<Field
 							type="text"
 							name="subTitle"
-							placeholder="Gently brings awareness to self-care activities, using encouraging push notifications, rather than guilt or shame."
+							placeholder="Gently~brings awareness to self-care activities, using encouraging push notifications, rather than guilt or shame."
 							className={`border w-full px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#5340ff] duration-300 ${errors.subTitle && touched.subTitle ? "ring-2 ring-red-500 focus:ring-red-500" : ""}`}
 						/>
 						{errors.subTitle && touched.subTitle ? (

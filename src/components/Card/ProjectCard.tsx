@@ -49,14 +49,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 			<div className="flex mt-4 gap-x-3">
 				<img
 					src={project.owner.profileImage}
-					alt={project.owner.fullName}
+					alt={project.owner.displayName}
 					className="w-10 h-10 rounded-full object-cover border border-gray-200"
 				/>
 				<div className="flex flex-col">
 					<h5 className="block font-sans text-lg font-medium leading-snug tracking-normal antialiased">
 						{project.title}
 					</h5>
-					<span className="text-gray-500 text-sm">{project.owner.fullName}</span>
+					<span className="text-gray-500 text-sm">{project.owner.displayName}</span>
 					<div className="flex items-center text-gray-600 text-sm">
 						<div className="flex items-center gap-x-1.5">
 							<FaRegClock size={14} />

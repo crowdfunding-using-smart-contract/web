@@ -61,7 +61,7 @@ export default function ProjectDetail() {
 							<span>{project.location}</span>
 						</div>
 					</div>
-					<span className="text-[#A7A7A7]">{project.owner.fullName}</span>
+					<span className="text-[#A7A7A7]">{project.owner.displayName}</span>
 				</div>
 			</section>
 			<section className="max-w-screen-md mx-auto mt-8">
