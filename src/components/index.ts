@@ -20,3 +20,5 @@ export { default as ProfilePictureModal } from "./Modal/ProfilePictureModal/Prof
 export { default as SaveChangeModal } from "./Modal/SaveChangeModal/SaveChangeModal";
 export { default as Editor } from "./Editor/Editor";
 export { default as ProfileImage } from "./Image/ProfileImage";
+export { default as ChannelItem } from "./Item/Channel/ChannelItem";
+export { default as MessageItem } from "./Item/Message/MessageItem";
