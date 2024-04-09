@@ -10,6 +10,7 @@ interface GlobalState {
 
 export interface GlobalStore extends GlobalState {
 	toggleMenu: () => void;
+	setMenuActivated: (args: GlobalState["isMenuActivated"]) => void;
 	setCoreMenuActivated: (args: GlobalState["isCoreMenuActivated"]) => void;
 	setProfileMenuActivated: (args: GlobalState["isProfileMenuActivated"]) => void;
 	setIsOpenProfilePicutureModal: (args: GlobalState["isOpenProfilePicutureModal"]) => void;
@@ -29,6 +30,11 @@ const useGlobalStore = create<GlobalStore>()(
 			toggleMenu: () => {
 				set((state) => {
 					return { isMenuActivated: !state.isMenuActivated };
+				});
+			},
+			setMenuActivated: (args) => {
+				set(() => {
+					return { isMenuActivated: args };
 				});
 			},
 			setCoreMenuActivated: (args) => {
