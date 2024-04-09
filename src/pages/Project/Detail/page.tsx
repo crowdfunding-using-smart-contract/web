@@ -5,8 +5,13 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { useGetProjectByIdQuery } from "@/services/query/project.query";
 import dayjs from "dayjs";
 import { Button } from "@mantine/core";
-import { RatingCard } from "@/components";
+import { ProfileImage, RatingCard } from "@/components";
 import { rateProject, verifyProjectRating } from "@/services/api/project.api";
+import { MdAccountCircle, MdOutlineMailOutline, MdOutlineMarkChatUnread } from "react-icons/md";
+import { GrSend } from "react-icons/gr";
+import useAuthStore from "@/store/useAuthStore";
+import { Project } from "@/types/project";
+import { motion } from "framer-motion";
 
 export default function ProjectDetail() {
 	const { projectId } = useParams();
@@ -61,7 +66,7 @@ export default function ProjectDetail() {
 							<span>{project.location}</span>
 						</div>
 					</div>
-					<span className="text-[#A7A7A7]">{project.owner.displayName}</span>
+					<ProjectOwner owner={project.owner} />
 				</div>
 			</section>
 			<section className="max-w-screen-md mx-auto mt-8">
@@ -98,12 +103,66 @@ export default function ProjectDetail() {
 					</Button>
 				</div>
 			</section>
-			{/* {JSON.stringify(isVerifiedProject)} */}
 			<RatingCard
 				isOpen={!isOpenRating}
 				onClose={() => setIsOpenRating(true)}
 				onSubmit={(v) => handleSubmitRating(v)}
 			/>
 		</React.Fragment>
+	);
+}
+
+function ProjectOwner({ owner }: { owner: Project["owner"] }) {
+	const { user } = useAuthStore();
+	const [isHovering, setIsHovering] = useState(false);
+
+	return (
+		<div
+			className="relative flex gap-x-2 items-center cursor-pointer"
+			onMouseEnter={() => setIsHovering(true)}
+			onMouseLeave={() => setIsHovering(false)}
+		>
+			<ProfileImage src={owner.profileImage} alt={owner.displayName} firstLetter={owner.displayName[0]} size={32} />
+			<span className="text-[#A7A7A7]">{owner.displayName}</span>
+			<motion.div
+				animate={isHovering ? "visible" : "hidden"}
+				variants={{
+					hidden: { opacity: 0, scale: 0 },
+					visible: { opacity: 1, scale: 1 },
+				}}
+				className="absolute -top-1/2 left-[105%] p-3 bg-gray-200 rounded-lg"
+			>
+				<div className="flex flex-col items-center">
+					<ProfileImage src={owner.profileImage} alt={owner.displayName} firstLetter={owner.displayName[0]} size={32} />
+					<span>{owner.displayName}</span>
+				</div>
+				<div className="flex flex-col text-sm my-2">
+					<div className="flex items-center gap-x-1.5">
+						<MdAccountCircle size={18} />
+						<span>{owner.fullName}</span>
+					</div>
+					<div className="flex items-center gap-x-1.5">
+						<MdOutlineMailOutline size={18} />
+						<span>{owner.email}</span>
+					</div>
+				</div>
+				{owner.id !== user?.id && (
+					<div className="flex items-center gap-x-2">
+						<a href={`/chat/${owner.id}`}>
+							<Button size="xs" className="bg-primary flex items-center">
+								<MdOutlineMarkChatUnread size={14} className="mr-1.5" />
+								<span>Chat</span>
+							</Button>
+						</a>
+						<a href={`mailto:${owner.email}`}>
+							<Button size="xs" className="bg-white text-font-primary border-primary">
+								<GrSend size={14} className="mr-1.5" />
+								<span>Send Mail</span>
+							</Button>
+						</a>
+					</div>
+				)}
+			</motion.div>
+		</div>
 	);
 }

@@ -3,7 +3,6 @@ import { getOwnProjects } from "@/services/api/project.api";
 import useAuthStore from "@/store/useAuthStore";
 import useGlobalStore from "@/store/useGlobalStore";
 import { Project } from "@/types/project";
-import { Button } from "@mantine/core";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React, { useState, useEffect, Fragment } from "react";
@@ -140,12 +139,6 @@ export default function ProfilePage() {
 											className="mt-2 flex-1 border p-2 disabled:text-gray-400"
 										/>
 									</div>
-								</div>
-								<div className="flex flex-col">
-									<span>Password</span>
-									<Button size="md" className="mt-2 py-2 px-8 border border-primary text-primary w-max">
-										Change Password
-									</Button>
 								</div>
 							</div>
 						</div>

@@ -27,9 +27,9 @@ export default function ChannelItem({ active, channel, onClick }: ChannelItemPro
 			</div>
 			<div className="flex-1">
 				<h2 className="text-lg line-clamp-1">{channel.receiver.displayName}</h2>
-				<p className="text-gray-600 line-clamp-1">{channel.lastMessage.text}</p>
+				<p className="text-gray-600 line-clamp-1">{channel.lastMessage?.text}</p>
 			</div>
-			<span className="text-xs text-gray-400 mt-1.5">{dayjs(channel.lastMessage.createdAt).fromNow()}</span>
+			<span className="text-xs text-gray-400 mt-1.5">{dayjs(channel.lastMessage?.createdAt).fromNow()}</span>
 		</div>
 	);
 }

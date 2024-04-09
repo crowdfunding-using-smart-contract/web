@@ -5,15 +5,18 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineModeEdit } from "react-icons/md";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfileMenu() {
 	const { user, signOut } = useAuthStore();
 	const { isProfileMenuActivated, setProfileMenuActivated, setIsOpenProfilePicutureModal } = useGlobalStore();
 	const [isHoveringProfilePicture, setIsHoveringProfilePicture] = useState(false);
+	const navigate = useNavigate();
 
 	function handleSignOut() {
 		signOut();
 		setProfileMenuActivated(false);
+		navigate("/", { replace: true });
 	}
 
 	if (!isProfileMenuActivated) {

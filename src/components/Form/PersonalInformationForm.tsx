@@ -5,6 +5,7 @@ import { Select } from "@mantine/core";
 import { genderOptions } from "@/constants/gender";
 import useRegisterStore from "@/store/useRegisterStore";
 import type { ErrorFields } from "@/types/error";
+import useAuthStore from "@/store/useAuthStore";
 
 type PersonalInformationFormValues = {
 	firstname: string;
@@ -15,6 +16,7 @@ type PersonalInformationFormValues = {
 
 export default function PersonalInformationForm() {
 	const { setPayload, isRegistering, registerAsync } = useRegisterStore();
+	const { getCurrentUserAsync } = useAuthStore();
 
 	const initialValues: PersonalInformationFormValues = {
 		firstname: "",
@@ -68,6 +70,7 @@ export default function PersonalInformationForm() {
 
 		try {
 			await registerAsync();
+			await getCurrentUserAsync();
 		} catch (error) {
 			console.error("Fetch register error", error);
 		}

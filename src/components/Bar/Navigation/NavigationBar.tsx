@@ -3,7 +3,7 @@ import "./style.css";
 import useAuthStore from "@/store/useAuthStore";
 import { CgMenuGridO } from "react-icons/cg";
 import { navbarProducts } from "@/constants/menu";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Fragment, useState } from "react";
 import { Button } from "@mantine/core";
 
@@ -161,10 +161,12 @@ function MenuDropDown() {
 function UserProfileDropDown() {
 	const { user, signOut } = useAuthStore();
 	const { setMenuActivated } = useGlobalStore();
+	const navigate = useNavigate();
 
 	function handleSignOut() {
 		signOut();
 		setMenuActivated(false);
+		navigate("/", { replace: true });
 	}
 
 	return (

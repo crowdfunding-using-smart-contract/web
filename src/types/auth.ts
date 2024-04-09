@@ -5,7 +5,7 @@ export type LoginPayload = {
 	password: string;
 };
 
-export type LoginResponse = {
+export type AuthenticateResponse = {
 	sessionId: string;
 	accessToken: string;
 	accessTokenExpiredAt: string;

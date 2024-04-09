@@ -10,7 +10,7 @@ export default function ChatBasePage() {
 
 	useEffect(() => {
 		getChannelsAsync();
-	}, []);
+	}, [getChannelsAsync]);
 
 	return (
 		<div className="flex h-screen overflow-hidden pt-[70px]">

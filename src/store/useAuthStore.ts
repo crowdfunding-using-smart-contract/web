@@ -63,6 +63,7 @@ const useAuthStore = create<AuthStore>()(
 				try {
 					const res = await getCurrentUser();
 					if (res.statusCode === 200) {
+						get().setIsAuthenticated(true);
 						setItem("active_user", res.result);
 						set(() => ({ user: res.result }));
 					}

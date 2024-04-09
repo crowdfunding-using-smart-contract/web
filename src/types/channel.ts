@@ -23,5 +23,5 @@ export type MessageCreatePayload = Partial<Pick<Message, "text" | "attachment">>
 
 export type GetOwnChannelsResponse = {
 	receiver: User;
-	lastMessage: Message;
+	lastMessage: Message | null;
 }[];
