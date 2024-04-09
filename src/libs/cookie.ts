@@ -1,18 +1,15 @@
-const getCookie = (key: string): string | null => {
-	const value = document.cookie
-		.split("; ")
-		.find((row) => row.startsWith(`${key}=`))
-		?.split("=")[1];
-	if (!value) return null;
-	return JSON.parse(value);
+import Cookies from "js-cookie";
+
+const getCookie = (key: string): string | undefined => {
+	return Cookies.get(key);
 };
 
-const setCookie = (key: string, value: unknown) => {
-	document.cookie = `${key}=${JSON.stringify(value)}`;
+const setCookie = (key: string, value: string) => {
+	Cookies.set(key, value);
 };
 
 const removeCookie = (key: string) => {
-	document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+	Cookies.remove(key);
 };
 
 export { getCookie, setCookie, removeCookie };

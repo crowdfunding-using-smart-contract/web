@@ -19,10 +19,9 @@ export type Project = {
 	image: string;
 	targetFunding: number;
 	currentFunding: number;
-	monetaryUnit: string;
 	startDate: string;
 	endDate: string;
-	launchDate: string;
+	rating: number;
 	owner: User;
 	status: ProjectStatus;
 	createdAt: string;

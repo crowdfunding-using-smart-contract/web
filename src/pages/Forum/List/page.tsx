@@ -70,7 +70,7 @@ function PostItem({ post }: { post: Post }) {
 		.replace(/^\w/, (c) => c.toUpperCase());
 
 	return (
-		<div className="border py-2 px-4 rounded-lg shadow-sm">
+		<a href={`/post/${post.id}`} className="border py-2 px-4 rounded-lg shadow-sm">
 			<div className="flex items-start justify-between">
 				<div className="flex flex-col flex-1">
 					<h4 className="text-lg font-semibold">
@@ -90,6 +90,6 @@ function PostItem({ post }: { post: Post }) {
 					<span className="text-sm text-gray-400 ml-1">{post.comments.length}</span>
 				</div>
 			</div>
-		</div>
+		</a>
 	);
 }

@@ -22,10 +22,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 		return (cur / tar) * 100;
 	}
 
-	function formatDaysLeft(dateStr: string) {
-		const endDate = dayjs(dateStr);
-		const difference = endDate.diff(dayjs(), "day");
-		return difference;
+	function formatDate(date: string) {
+		return dayjs(date).from(dayjs(), true);
 	}
 
 	if (!project) return null;
@@ -60,7 +58,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 					<div className="flex items-center text-gray-600 text-sm">
 						<div className="flex items-center gap-x-1.5">
 							<FaRegClock size={14} />
-							<span>{formatDaysLeft(project.endDate)} days left</span>
+							<span>{formatDate(project.endDate)} left</span>
 						</div>
 						<span className="text-2xl mx-1">⋅</span>
 						<span>{percentFunded(project.currentFunding, project.targetFunding)}% funded</span>

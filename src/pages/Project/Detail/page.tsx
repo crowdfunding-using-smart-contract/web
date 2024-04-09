@@ -9,6 +9,7 @@ import { ProfileImage, RatingCard } from "@/components";
 import { rateProject, verifyProjectRating } from "@/services/api/project.api";
 import { MdAccountCircle, MdOutlineMailOutline, MdOutlineMarkChatUnread } from "react-icons/md";
 import { GrSend } from "react-icons/gr";
+import { GoStarFill } from "react-icons/go";
 import useAuthStore from "@/store/useAuthStore";
 import { Project } from "@/types/project";
 import { motion } from "framer-motion";
@@ -21,6 +22,10 @@ export default function ProjectDetail() {
 	async function handleSubmitRating(value: number) {
 		if (!projectId) return;
 		await rateProject(projectId, value);
+	}
+
+	function formatDate(date: string) {
+		return dayjs(date).from(dayjs(), true);
 	}
 
 	useEffect(() => {
@@ -65,6 +70,10 @@ export default function ProjectDetail() {
 							<FaMapLocationDot size={24} className="mr-2" />
 							<span>{project.location}</span>
 						</div>
+						<div className="flex items-center">
+							<GoStarFill size={24} className="mr-2" />
+							<span>{project.rating}</span>
+						</div>
 					</div>
 					<ProjectOwner owner={project.owner} />
 				</div>
@@ -77,7 +86,7 @@ export default function ProjectDetail() {
 			<section className="max-w-screen-md mx-auto my-12">
 				<div className="flex flex-col items-end">
 					<h3 className="text-2xl font-medium">
-						{project.currentFunding}/{project.targetFunding} {project.monetaryUnit}
+						{project.currentFunding}/{project.targetFunding} {"OTK"}
 					</h3>
 					<div className="bg-[#D9D9D9] w-full h-6 rounded mt-2">
 						<div
@@ -94,9 +103,7 @@ export default function ProjectDetail() {
 							<span className="text-2xl">560 </span>
 							backers
 						</span>
-						<span className="font-medium text-2xl">
-							{dayjs(project.endDate).from(dayjs(project.startDate), true)} left
-						</span>
+						<span className="font-medium text-2xl">{formatDate(project.endDate)} left</span>
 					</div>
 					<Button size={"lg"} className="bg-primary">
 						Back this project
@@ -130,7 +137,7 @@ function ProjectOwner({ owner }: { owner: Project["owner"] }) {
 					hidden: { opacity: 0, scale: 0 },
 					visible: { opacity: 1, scale: 1 },
 				}}
-				className="absolute -top-1/2 left-[105%] p-3 bg-gray-200 rounded-lg"
+				className="absolute -top-1/2 left-[105%] p-3 opacity-0 bg-gray-200 rounded-lg"
 			>
 				<div className="flex flex-col items-center">
 					<ProfileImage src={owner.profileImage} alt={owner.displayName} firstLetter={owner.displayName[0]} size={32} />
