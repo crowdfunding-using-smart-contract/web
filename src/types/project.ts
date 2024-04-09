@@ -1,6 +1,13 @@
 import type { ProjectCategory, ProjectSubCategory } from "./projectCategory";
 import type { User } from "./user";
 
+enum ProjectStatus {
+	ACTIVE,
+	DELETED,
+	SUCCESSFUL,
+	UNSUCCESSFUL,
+}
+
 export type Project = {
 	id: string;
 	title: string;
@@ -17,6 +24,7 @@ export type Project = {
 	endDate: string;
 	launchDate: string;
 	owner: User;
+	status: ProjectStatus;
 	createdAt: string;
 };
 
