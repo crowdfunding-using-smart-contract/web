@@ -1,10 +1,12 @@
-import { ConnectWalletButton, SaveChangeModal } from "@/components";
+import { ConnectWalletButton, ProjectCard, SaveChangeModal } from "@/components";
+import { getOwnProjects } from "@/services/api/project.api";
 import useAuthStore from "@/store/useAuthStore";
 import useGlobalStore from "@/store/useGlobalStore";
+import { Project } from "@/types/project";
 import { Button } from "@mantine/core";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { MdOutlineModeEdit } from "react-icons/md";
 
 export default function ProfilePage() {
@@ -12,6 +14,7 @@ export default function ProfilePage() {
 	const [currentSection, setCurrentSection] = useState<"about" | "created" | "backed">("about");
 	const { setIsOpenProfilePicutureModal } = useGlobalStore();
 	const [isHoveringProfilePicture, setIsHoveringProfilePicture] = useState(false);
+	const [ownProjects, setOwnProjects] = useState<Project[]>([]);
 
 	const formik = useFormik({
 		initialValues: {
@@ -28,8 +31,16 @@ export default function ProfilePage() {
 		setCurrentSection(section);
 	}
 
+	async function getOwnProjectAsync() {
+		const { statusCode, result } = await getOwnProjects();
+		if (statusCode === 200) {
+			setOwnProjects(result);
+		}
+	}
+
 	useEffect(() => {
 		getCurrentUserAsync();
+		getOwnProjectAsync();
 	}, []);
 
 	if (!isAuthenticated || !user) {
@@ -148,10 +159,18 @@ export default function ProfilePage() {
 				)}
 				{currentSection === "created" && (
 					<div className="max-w-screen-lg mx-auto my-16">
-						<span>You don’t have any own project. Let’s create your idea!</span>
-						<a href="/project/new" className="underline ml-2 text-[#5340FF]">
-							Create Project
-						</a>
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
+							{ownProjects.length > 0 ? (
+								ownProjects.map((p) => <ProjectCard project={p} key={p.id} />)
+							) : (
+								<Fragment>
+									<span>You don’t have any own project. Let’s create your idea!</span>
+									<a href="/project/new" className="underline ml-2 text-[#5340FF]">
+										Create Project
+									</a>
+								</Fragment>
+							)}
+						</div>
 					</div>
 				)}
 				{currentSection === "backed" && (

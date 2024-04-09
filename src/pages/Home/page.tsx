@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateProjectButton, Footer, ProjectCard, SearchBar } from "@/components";
+import { CreateProjectButton, Footer, SearchBar } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -48,9 +48,9 @@ export default function Homepage() {
 			<section className="max-w-screen-lg mx-auto mt-24 px-4">
 				<p className="uppercase font-semibold">recommend for you</p>
 				<div className="flex w-full gap-x-6 overflow-auto mt-6">
-					{[1, 2, 3, 4, 5, 6].map((_, index) => (
+					{/* {[1, 2, 3, 4, 5, 6].map((_, index) => (
 						<ProjectCard projectId={`${index + 1}`} key={index} />
-					))}
+					))} */}
 				</div>
 			</section>
 			<section className="max-w-screen-lg mx-auto mt-24 px-4 text-center">

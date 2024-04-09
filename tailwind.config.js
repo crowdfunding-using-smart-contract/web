@@ -3,6 +3,7 @@
 
 export default {
 	content: ["./src/**/*.tsx"],
+	darkMode: false,
 	theme: {
 		extend: {
 			colors: {

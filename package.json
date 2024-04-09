@@ -61,6 +61,8 @@
 		"react-router": "^6.21.1",
 		"react-router-dom": "^6.21.1",
 		"solc": "^0.8.25",
+		"react-use-websocket": "^4.8.1",
+		"reconnecting-websocket": "^4.4.0",
 		"sweetalert2": "^11.10.7",
 		"sweetalert2-react-content": "^5.0.7",
 		"truffle-hdwallet-provider": "^1.0.17",
