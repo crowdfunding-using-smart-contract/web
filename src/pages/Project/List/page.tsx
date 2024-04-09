@@ -13,7 +13,17 @@ export default function ProjectList() {
 	const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 	const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
-	const { isPending: fetchingProjects, data: projects } = useListProjectsQuery({ page, size: 10 });
+	const {
+		isPending: fetchingProjects,
+		data: projects,
+		refetch: refetchProjects,
+	} = useListProjectsQuery({
+		page,
+		size: 10,
+		q: searchParams.get("q") || "",
+		category: selectedCategory!,
+		subcategory: selectedSubcategory!,
+	});
 
 	function onSubmitHandler(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -65,6 +75,7 @@ export default function ProjectList() {
 		setSearchQuery(searchParams.get("q") || "");
 		setSelectedCategory(searchParams.get("category") || null);
 		setSelectedSubcategory(searchParams.get("subcategory") || null);
+		refetchProjects();
 	}, [searchParams]);
 
 	useEffect(() => {
@@ -74,7 +85,7 @@ export default function ProjectList() {
 		}
 	}, [searchParams, searchQuery, setSearchParams]);
 
-	if (fetchingProjectCategories || fetchingProjects || !categories || !projects) {
+	if (fetchingProjectCategories || !categories) {
 		return <div className="pt-32">Loading...</div>;
 	}
 
@@ -119,16 +130,12 @@ export default function ProjectList() {
 				/>
 			</div>
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
-				{/* {Array.from({ length: 5 }).map((_, index) => (
-					<ProjectCard projectId={`${index + 1}`} key={index} />
-				))} */}
-				{projects.data.map((p) => (
-					<ProjectCard project={p} key={p.id} />
-				))}
+				{fetchingProjects && <div>Loading...</div>}
+				{projects && projects.data.map((p) => <ProjectCard project={p} key={p.id} />)}
 			</div>
 			<div className="flex justify-center my-16">
 				<Pagination
-					total={projects.lastPage}
+					total={projects?.lastPage || 1}
 					color="#5340ff"
 					value={page}
 					onChange={(value) => onChangePageHandler(value)}

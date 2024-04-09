@@ -4,7 +4,7 @@ import { createProject, getOwnProjects, getProjectById, listProjects } from "../
 
 export const useListProjectsQuery = (params: ListProjectParams) =>
 	useQuery({
-		queryKey: ["project", "list"],
+		queryKey: ["project", { params }],
 		queryFn: async () => {
 			const res = await listProjects(params);
 			return res.result;

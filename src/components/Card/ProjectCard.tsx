@@ -69,7 +69,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 						{project.description}
 					</p>
 					<div className="flex mt-3 text-sm gap-x-2">
-						<span className="border border-gray-300 px-1.5 py-0.5 rounded-full">{project.subCategory.name}</span>
+						<span className="border border-gray-300 px-1.5 py-0.5 rounded-full">{project.category.name}</span>
 						<span className="border border-gray-300 px-1.5 py-0.5 rounded-full">{project.location}</span>
 					</div>
 				</div>
