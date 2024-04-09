@@ -40,7 +40,7 @@ export type CreateProjectPayload = {
 	subCategoryId: string;
 	location: string;
 	image: File | null;
-	targetFunding: string;
+	targetFunding: number;
 	endDate: Date | null;
 };
 

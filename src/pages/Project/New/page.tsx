@@ -9,6 +9,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import useAuthStore from "@/store/useAuthStore";
 import { useEffect } from "react";
 import { Swal } from "@/libs/sweetalert2";
+import { Button } from "@mantine/core";
 
 const CreateProjectSchema = Yup.object().shape({
 	title: Yup.string().min(2, "Too Short!").max(70, "Too Long!").required("Required"),
@@ -18,6 +19,7 @@ const CreateProjectSchema = Yup.object().shape({
 	subCategoryId: Yup.string().required("Required"),
 	location: Yup.string().required("Required"),
 	image: Yup.mixed().notRequired(),
+	targetFunding: Yup.number().min(0, "Minimum target funding is 0").required("Required"),
 });
 
 export default function NewProjectPage() {
@@ -60,12 +62,12 @@ export default function NewProjectPage() {
 		addressId: user.metamaskAccountId,
 		title: "",
 		subTitle: "",
+		description: "",
 		categoryId: "",
 		subCategoryId: "",
 		location: "",
 		image: null,
-		description: "",
-		targetFunding: "100",
+		targetFunding: 0,
 		endDate: null,
 	};
 
@@ -186,6 +188,25 @@ export default function NewProjectPage() {
 						</p>
 						<div className="aspect-video w-full lg:w-1/2 mt-8">
 							<ImagePicker label={"project"} action={(file) => setValues({ ...values, image: file })} />
+						</div>
+					</div>
+					<div className="flex flex-col mt-8">
+						<h4 className="text-lg font-semibold">Project Target Funding</h4>
+						<p className="text-[#797979]">Set a target funding amount for your project. Specify in OTK token.</p>
+						<div className="flex items-start w-full md:w-1/2 mt-3">
+							<div className="flex flex-col flex-grow">
+								<Field
+									type="number"
+									name="targetFunding"
+									className={`border px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#5340ff] duration-300 ${errors.targetFunding && touched.targetFunding ? "ring-2 ring-red-500 focus:ring-red-500" : ""}`}
+								/>
+								{errors.targetFunding && touched.targetFunding ? (
+									<p className="text-red-500 text-sm mt-1">{errors.targetFunding}</p>
+								) : null}
+							</div>
+							<Button color="gray" disabled={true}>
+								OTK
+							</Button>
 						</div>
 					</div>
 					<div className="flex flex-col mt-8">

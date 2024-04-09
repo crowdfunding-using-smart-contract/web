@@ -47,17 +47,14 @@ export async function createProject(payload: CreateProjectFormValues): Promise<R
 	const accounts = await web3.eth.getAccounts();
 	if (accounts.length === 0) throw new Error("No accounts found");
 
-	const crowdfundingContract = new web3.eth.Contract(crowdfundingAbi, crowdfundingAddress);
+	const crowdfundingContractCreate = new web3.eth.Contract(crowdfundingAbi, crowdfundingAddress);
 
 	const startDate = Math.floor(new Date().getTime() / 1000);
 	const endDate = Math.floor(payload.endDate.getTime() / 1000);
 
-	console.log(accounts[0]);
-	console.log(typeof accounts[0]);
-
 	try {
-		const transactionResponse = await crowdfundingContract.methods
-			.createProject(payload.title, web3.utils.toWei("1000", "ether"), startDate, endDate)
+		const transactionResponse = await crowdfundingContractCreate.methods
+			.createProject(payload.title, web3.utils.toWei(payload.targetFunding.toString(), "ether"), startDate, endDate)
 			.send({
 				from: accounts[0],
 			});
