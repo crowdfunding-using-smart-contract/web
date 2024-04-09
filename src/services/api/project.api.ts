@@ -1,15 +1,10 @@
 import { api } from "@/libs/api";
 import { parseToFormData } from "@/libs/formData";
 import { PaginateResult } from "@/types/pagination";
-import {
-	CreateProjectFormValues,
-	CreateProjectPayload,
-	ListProjectParams,
-	Project,
-	UpdateProjectPayload,
-} from "@/types/project";
+import { CreateProjectFormValues, ListProjectParams, Project, UpdateProjectPayload } from "@/types/project";
 import { ResultResponse } from "@/types/response";
-import { crowdfundingContract, web3 } from "../../libs/web3";
+import { crowdfundingContract, crowdfundingAbi, crowdfundingAddress } from "../../libs/web3";
+import { Web3 } from "web3";
 
 export async function listProjects(params: ListProjectParams): Promise<ResultResponse<PaginateResult<Project>>> {
 	const { data } = await api.get("/api/projects", { params });
@@ -42,24 +37,43 @@ export async function createProject(payload: CreateProjectFormValues): Promise<R
 		throw new Error("End date is required");
 	}
 
+	if (typeof window.ethereum === "undefined") {
+		throw new Error("Ethereum wallet is not connected");
+	}
+
+	const web3 = new Web3(window.ethereum);
+	await window.ethereum.enable();
+
+	const accounts = await web3.eth.getAccounts();
+	if (accounts.length === 0) throw new Error("No accounts found");
+
+	const crowdfundingContract = new web3.eth.Contract(crowdfundingAbi, crowdfundingAddress);
+
 	const startDate = Math.floor(new Date().getTime() / 1000);
 	const endDate = Math.floor(payload.endDate.getTime() / 1000);
 
-	console.log("Address ID: ", payload.addressId);
-	const res = await crowdfundingContract.methods
-		.createProject(payload.title, web3.utils.toWei("1000", "ether"), startDate, endDate)
-		.send({ from: payload.addressId });
-	console.log("response from contract: ", res);
+	console.log(accounts[0]);
+	console.log(typeof accounts[0]);
 
-	const formData = parseToFormData<CreateProjectPayload>({ ...payload, projectContractId: "1" });
+	try {
+		const transactionResponse = await crowdfundingContract.methods
+			.createProject(payload.title, web3.utils.toWei("1000", "ether"), startDate, endDate)
+			.send({
+				from: accounts[0],
+			});
 
-	const { data } = await api.post("/api/projects", formData, {
-		headers: {
-			"Content-Type": "multipart/form-data",
-		},
-	});
+		console.log("Transaction response:", transactionResponse);
 
-	return data;
+		const formData = parseToFormData({ ...payload, projectContractId: "1" });
+		const { data } = await api.post("/api/projects", formData, {
+			headers: { "Content-Type": "multipart/form-data" },
+		});
+
+		return data;
+	} catch (error) {
+		console.error("Transaction error:", error);
+		throw new Error("Failed to create project on the blockchain");
+	}
 }
 
 export async function updateProjectById(id: string, payload: UpdateProjectPayload): Promise<ResultResponse<Project>> {
