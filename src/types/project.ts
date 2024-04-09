@@ -31,18 +31,20 @@ export type Project = {
 // Secondary types
 
 export type CreateProjectPayload = {
+	addressId: string;
+	projectContractId: string;
 	title: string;
 	subTitle: string;
+	description: string;
 	categoryId: string;
 	subCategoryId: string;
 	location: string;
 	image: File | null;
-	description: string;
-	targetFunding: number;
-	monetaryUnit: string;
+	targetFunding: string;
 	endDate: Date | null;
-	lanuchDate: Date | null;
 };
+
+export type CreateProjectFormValues = Omit<CreateProjectPayload, "projectContractId">;
 
 export type UpdateProjectPayload = Partial<CreateProjectPayload>;
 

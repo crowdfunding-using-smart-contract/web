@@ -1,9 +1,15 @@
 import { api } from "@/libs/api";
 import { parseToFormData } from "@/libs/formData";
 import { PaginateResult } from "@/types/pagination";
-import { CreateProjectPayload, ListProjectParams, Project, UpdateProjectPayload } from "@/types/project";
+import {
+	CreateProjectFormValues,
+	CreateProjectPayload,
+	ListProjectParams,
+	Project,
+	UpdateProjectPayload,
+} from "@/types/project";
 import { ResultResponse } from "@/types/response";
-import { crowdfundingContract } from "../../libs/web3";
+import { crowdfundingContract, web3 } from "../../libs/web3";
 
 export async function listProjects(params: ListProjectParams): Promise<ResultResponse<PaginateResult<Project>>> {
 	const { data } = await api.get("/api/projects", { params });
@@ -11,9 +17,9 @@ export async function listProjects(params: ListProjectParams): Promise<ResultRes
 	const dataOnContract: bigint[] = await crowdfundingContract.methods.getAllProjects().call();
 
 	for (let i = 0; i < dataOnContract.length; i++) {
-		// const project_id = Number(dataOnContract[i]);
-		// const projectOnContract = await crowdfundingContract.methods.getProject(project_id).call();
-		// console.log(projectOnContract);
+		const project_id = Number(dataOnContract[i]);
+		const projectOnContract = await crowdfundingContract.methods.getProject(project_id).call();
+		console.log(projectOnContract);
 	}
 
 	return data;
@@ -31,8 +37,21 @@ export async function getOwnProjects(): Promise<ResultResponse<Project[]>> {
 	return data;
 }
 
-export async function createProject(payload: CreateProjectPayload): Promise<ResultResponse<Project>> {
-	const formData = parseToFormData<CreateProjectPayload>(payload);
+export async function createProject(payload: CreateProjectFormValues): Promise<ResultResponse<Project>> {
+	if (!payload.endDate) {
+		throw new Error("End date is required");
+	}
+
+	const startDate = Math.floor(new Date().getTime() / 1000);
+	const endDate = Math.floor(payload.endDate.getTime() / 1000);
+
+	console.log("Address ID: ", payload.addressId);
+	const res = await crowdfundingContract.methods
+		.createProject(payload.title, web3.utils.toWei("1000", "ether"), startDate, endDate)
+		.send({ from: payload.addressId });
+	console.log("response from contract: ", res);
+
+	const formData = parseToFormData<CreateProjectPayload>({ ...payload, projectContractId: "1" });
 
 	const { data } = await api.post("/api/projects", formData, {
 		headers: {

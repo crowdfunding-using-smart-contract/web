@@ -2,10 +2,13 @@ import { DatePicker, HourPicker, ImagePicker, MinutePicker } from "@/components"
 import { dateFormatter } from "@/libs/date";
 import { useListProjectCategoryQuery } from "@/services/query/projectCategory.query";
 import { Formik, Form, Field } from "formik";
-import { CreateProjectPayload } from "@/types/project";
+import { CreateProjectFormValues } from "@/types/project";
 import { useCreateProjectMutation } from "@/services/query/project.query";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import useAuthStore from "@/store/useAuthStore";
+import { useEffect } from "react";
+import { Swal } from "@/libs/sweetalert2";
 
 const CreateProjectSchema = Yup.object().shape({
 	title: Yup.string().min(2, "Too Short!").max(70, "Too Long!").required("Required"),
@@ -18,27 +21,12 @@ const CreateProjectSchema = Yup.object().shape({
 });
 
 export default function NewProjectPage() {
+	const { user } = useAuthStore();
 	const { isPending, data: categories } = useListProjectCategoryQuery();
 	const { isPending: isLoadingCreateProject, mutateAsync: createProjectAsync } = useCreateProjectMutation();
 	const navigate = useNavigate();
 
-	if (isPending || !categories) return <div>Loading...</div>;
-
-	const initialValues: CreateProjectPayload = {
-		title: "",
-		subTitle: "",
-		categoryId: "",
-		subCategoryId: "",
-		location: "",
-		image: null,
-		description: "",
-		targetFunding: 100,
-		monetaryUnit: "THB",
-		endDate: null,
-		lanuchDate: null,
-	};
-
-	async function onSubmitHandler(values: CreateProjectPayload) {
+	async function onSubmitHandler(values: CreateProjectFormValues) {
 		try {
 			await createProjectAsync(values);
 			navigate("/project", { replace: true });
@@ -46,6 +34,40 @@ export default function NewProjectPage() {
 			console.error(error);
 		}
 	}
+
+	useEffect(() => {
+		if (user && user.metamaskAccountId === "empty") {
+			Swal.fire({
+				title: "Unauthorized",
+				text: "Please connect your metamask account to continue",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Connect",
+				cancelButtonText: "Cancel",
+			}).then((result) => {
+				if (result.isConfirmed) navigate("/profile");
+			});
+		}
+	}, [user, navigate]);
+
+	if (isPending || !categories) return <div className="pt-32">Loading...</div>;
+
+	if (!user) return <Navigate to="/login" />;
+
+	if (user.metamaskAccountId === "empty") return null;
+
+	const initialValues: CreateProjectFormValues = {
+		addressId: user.metamaskAccountId,
+		title: "",
+		subTitle: "",
+		categoryId: "",
+		subCategoryId: "",
+		location: "",
+		image: null,
+		description: "",
+		targetFunding: "100",
+		endDate: null,
+	};
 
 	return (
 		<Formik initialValues={initialValues} onSubmit={onSubmitHandler} validationSchema={CreateProjectSchema}>
