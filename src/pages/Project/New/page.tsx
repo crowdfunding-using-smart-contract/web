@@ -97,7 +97,7 @@ export default function NewProjectPage() {
 						<Field
 							type="text"
 							name="subTitle"
-							placeholder="Gently~brings awareness to self-care activities, using encouraging push notifications, rather than guilt or shame."
+							placeholder="Gently brings awareness to self-care activities, using encouraging push notifications, rather than guilt or shame."
 							className={`border w-full px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#5340ff] duration-300 ${errors.subTitle && touched.subTitle ? "ring-2 ring-red-500 focus:ring-red-500" : ""}`}
 						/>
 						{errors.subTitle && touched.subTitle ? (

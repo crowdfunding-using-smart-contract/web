@@ -24,6 +24,7 @@ export type Project = {
 	rating: number;
 	owner: User;
 	status: ProjectStatus;
+	projectContractId: string;
 	createdAt: string;
 };
 

@@ -13,16 +13,24 @@ import { crowdfundingContract, crowdfundingAbi, crowdfundingAddress } from "../.
 import { Web3 } from "web3";
 
 export async function listProjects(params: ListProjectParams): Promise<ResultResponse<PaginateResult<Project>>> {
-	const { data } = await api.get("/api/projects", { params });
+	const { data } = await api.get<ResultResponse<PaginateResult<Project>>>("/api/projects", { params });
 
-	const dataOnContract: bigint[] = await crowdfundingContract.methods.getAllProjects().call();
-	console.log(dataOnContract);
+	for (let i = 0; i < data.result.data.length; i++) {
+		const project = data.result.data[i];
+		const projectOnContract = await crowdfundingContract.methods.getProject(project.projectContractId).call();
+		project.currentFunding = projectOnContract.currentFunding.toString();
+		project.targetFunding = projectOnContract.targetFunding.toString();
+	}
 
 	return data;
 }
 
 export async function getProjectById(id?: string): Promise<ResultResponse<Project>> {
-	const { data } = await api.get(`/api/projects/${id}`);
+	const { data } = await api.get<ResultResponse<Project>>(`/api/projects/${id}`);
+	const project = data.result.data[i];
+	const projectOnContract = await crowdfundingContract.methods.getProject(project.projectContractId).call();
+	project.currentFunding = projectOnContract.currentFunding.toString();
+	project.targetFunding = projectOnContract.targetFunding.toString();
 
 	return data;
 }
@@ -63,12 +71,17 @@ export async function createProject(payload: CreateProjectFormValues): Promise<R
 		const transactionResponse = await crowdfundingContractCreate.methods
 			.createProject(payload.title, web3.utils.toWei(payload.targetFunding.toString(), "ether"), startDate, endDate)
 			.send({
-				from: accounts[0],
+				from: payload.addressId,
 			});
 
 		console.log("Transaction response:", transactionResponse);
 
-		const formData = parseToFormData({ ...payload, projectContractId: "1" });
+		const transactionId = transactionResponse?.events?.ProjectCreated.returnValues.projectId as string;
+
+		const formData = parseToFormData({
+			...payload,
+			projectContractId: transactionId,
+		});
 		const { data } = await api.post("/api/projects", formData, {
 			headers: { "Content-Type": "multipart/form-data" },
 		});
