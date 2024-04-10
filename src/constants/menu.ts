@@ -1,29 +1,36 @@
 const navbarProducts = [
 	{
+		id: "1",
 		label: "Art",
 		url: "art",
 	},
 	{
+		id: "2",
 		label: "Comics",
 		url: "comics",
 	},
 	{
-		label: "Design & Tech",
-		url: "design-tech",
+		id: "3",
+		label: "Technology",
+		url: "tech",
 	},
 	{
+		id: "4",
 		label: "Film & Video",
 		url: "film-video",
 	},
 	{
-		label: "Food & Craft",
-		url: "food-craft",
+		id: "5",
+		label: "Crafts",
+		url: "craft",
 	},
 	{
+		id: "6",
 		label: "Games",
 		url: "games",
 	},
 	{
+		id: "7",
 		label: "Music",
 		url: "music",
 	},
