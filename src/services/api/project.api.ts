@@ -32,6 +32,12 @@ export async function getOwnProjects(): Promise<ResultResponse<Project[]>> {
 	return data;
 }
 
+export async function getRecommendationProjects(): Promise<ResultResponse<Project[]>> {
+	const { data } = await api.get("/api/projects/recommendation");
+
+	return data;
+}
+
 export async function createProject(payload: CreateProjectFormValues): Promise<ResultResponse<Project>> {
 	if (!payload.endDate) {
 		throw new Error("End date is required");

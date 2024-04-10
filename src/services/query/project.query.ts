@@ -1,6 +1,12 @@
 import { CreateProjectFormValues, ListProjectParams, Project } from "@/types/project";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createProject, getOwnProjects, getProjectById, listProjects } from "../api/project.api";
+import {
+	createProject,
+	getOwnProjects,
+	getProjectById,
+	getRecommendationProjects,
+	listProjects,
+} from "../api/project.api";
 
 export const useListProjectsQuery = (params: ListProjectParams) =>
 	useQuery({
@@ -34,6 +40,15 @@ export const useGetOwnProjectsQuery = () =>
 		queryKey: ["project", "me"],
 		queryFn: async () => {
 			const res = await getOwnProjects();
+			return res.result;
+		},
+	});
+
+export const useGetRecommendationProjectsQuery = () =>
+	useQuery<Project[]>({
+		queryKey: ["project", "recommendation"],
+		queryFn: async () => {
+			const res = await getRecommendationProjects();
 			return res.result;
 		},
 	});

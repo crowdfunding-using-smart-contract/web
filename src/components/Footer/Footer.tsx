@@ -25,16 +25,6 @@ export default function Footer() {
 						<p className="text-sm lg:text-base">support@fundo.com</p>
 					</div>
 				</div>
-				<div className="flex flex-row lg:flex-col gap-x-10 gap-y-6 mt-12 lg:mt-0 justify-center lg:justify-start">
-					<div className="flex items-center gap-x-2">
-						<img src="/assets/facebook.png" alt="facebook" className="w-6 h-6" />
-						<p>FundO Official</p>
-					</div>
-					<div className="flex items-center gap-x-2">
-						<img src="/assets/instagram.png" alt="instagram" className="w-6 h-6" />
-						<p>fundo_official</p>
-					</div>
-				</div>
 			</div>
 			<div className="flex justify-center lg:justify-start">
 				<span className="text-center text-lg font-medium text-[#6f6f73]">© 2024 FundO Inc.</span>

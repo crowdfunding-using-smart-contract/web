@@ -1,10 +1,12 @@
 import React from "react";
-import { CreateProjectButton, Footer, SearchBar } from "@/components";
+import { CreateProjectButton, Footer, ProjectCard, SearchBar } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useGetRecommendationProjectsQuery } from "@/services/query/project.query";
 
 export default function Homepage() {
 	const { t } = useTranslation();
+	const { data: recommendationProjects } = useGetRecommendationProjectsQuery();
 	const navigate = useNavigate();
 
 	function handleSearch(searchQuery: string): void {
@@ -47,45 +49,9 @@ export default function Homepage() {
 			</section>
 			<section className="max-w-screen-lg mx-auto mt-24 px-4">
 				<p className="uppercase font-semibold">recommend for you</p>
-				<div className="flex w-full gap-x-6 overflow-auto mt-6">
-					{/* {[1, 2, 3, 4, 5, 6].map((_, index) => (
-						<ProjectCard projectId={`${index + 1}`} key={index} />
-					))} */}
-				</div>
-			</section>
-			<section className="max-w-screen-lg mx-auto mt-24 px-4 text-center">
-				<h2 className="font-bold text-2xl">Popular Creator</h2>
-				<div className="flex flex-col md:flex-row justify-between mt-10">
-					<div className="flex items-center md:flex-col">
-						<div className="w-40 md:w-56 h-40 md:h-56 mr-8 mb-4">
-							<img
-								src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
-								alt="popular-creator-1"
-								className="w-full h-full object-cover rounded-xl md:rounded-full"
-							/>
-						</div>
-						<h3 className="text-xl font-medium">John Doe</h3>
-					</div>
-					<div className="flex items-center md:flex-col">
-						<div className="w-40 md:w-56 h-40 md:h-56 mr-8 mb-4">
-							<img
-								src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
-								alt="popular-creator-2"
-								className="w-full h-full object-cover rounded-xl md:rounded-full"
-							/>
-						</div>
-						<h3 className="text-xl font-medium">John Doe</h3>
-					</div>
-					<div className="flex items-center md:flex-col">
-						<div className="w-40 md:w-56 h-40 md:h-56 mr-8 mb-4">
-							<img
-								src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
-								alt="popular-creator-2"
-								className="w-full h-full object-cover rounded-xl md:rounded-full"
-							/>
-						</div>
-						<h3 className="text-xl font-medium">John Doe</h3>
-					</div>
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-3">
+					{recommendationProjects &&
+						recommendationProjects.map((project) => <ProjectCard project={project} key={project.id} />)}
 				</div>
 			</section>
 			<section className="bg-[#5340FF] py-24 mt-24 px-4">
