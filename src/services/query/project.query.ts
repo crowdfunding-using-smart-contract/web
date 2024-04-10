@@ -2,6 +2,7 @@ import { CreateProjectFormValues, ListProjectParams, Project } from "@/types/pro
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
 	createProject,
+	getBackedProjects,
 	getOwnProjects,
 	getProjectById,
 	getRecommendationProjects,
@@ -49,6 +50,15 @@ export const useGetRecommendationProjectsQuery = () =>
 		queryKey: ["project", "recommendation"],
 		queryFn: async () => {
 			const res = await getRecommendationProjects();
+			return res.result;
+		},
+	});
+
+export const useGetBackedProjectsQuery = () =>
+	useQuery({
+		queryKey: ["project", "backed"],
+		queryFn: async () => {
+			const res = await getBackedProjects();
 			return res.result;
 		},
 	});

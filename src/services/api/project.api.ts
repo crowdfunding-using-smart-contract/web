@@ -1,7 +1,13 @@
 import { api } from "@/libs/api";
 import { parseToFormData } from "@/libs/formData";
 import { PaginateResult } from "@/types/pagination";
-import { CreateProjectFormValues, ListProjectParams, Project, UpdateProjectPayload } from "@/types/project";
+import {
+	CreateProjectFormValues,
+	GetBackedProjectResponse,
+	ListProjectParams,
+	Project,
+	UpdateProjectPayload,
+} from "@/types/project";
 import { ResultResponse } from "@/types/response";
 import { crowdfundingContract, crowdfundingAbi, crowdfundingAddress } from "../../libs/web3";
 import { Web3 } from "web3";
@@ -98,6 +104,12 @@ export async function deleteProjectById(id: string): Promise<ResultResponse<bool
 
 export async function contributeProject(id: string): Promise<ResultResponse<boolean>> {
 	const { data } = await api.post(`/api/projects/${id}/contribute`);
+
+	return data;
+}
+
+export async function getBackedProjects(): Promise<ResultResponse<GetBackedProjectResponse[]>> {
+	const { data } = await api.get("/api/projects/backed");
 
 	return data;
 }

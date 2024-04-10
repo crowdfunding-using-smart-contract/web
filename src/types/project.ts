@@ -54,3 +54,8 @@ export type ListProjectParams = {
 	category?: string;
 	subcategory?: string;
 };
+
+export type GetBackedProjectResponse = {
+	fundAmount: string;
+	project: Project;
+};

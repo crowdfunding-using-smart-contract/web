@@ -1,8 +1,10 @@
 import { ConnectWalletButton, ProjectCard, SaveChangeModal } from "@/components";
 import { getOwnProjects } from "@/services/api/project.api";
+import { useGetBackedProjectsQuery } from "@/services/query/project.query";
 import useAuthStore from "@/store/useAuthStore";
 import useGlobalStore from "@/store/useGlobalStore";
 import { Project } from "@/types/project";
+import { Button } from "@mantine/core";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React, { useState, useEffect, Fragment } from "react";
@@ -14,6 +16,7 @@ export default function ProfilePage() {
 	const { setIsOpenProfilePicutureModal } = useGlobalStore();
 	const [isHoveringProfilePicture, setIsHoveringProfilePicture] = useState(false);
 	const [ownProjects, setOwnProjects] = useState<Project[]>([]);
+	const { data: backedProjects } = useGetBackedProjectsQuery();
 
 	const formik = useFormik({
 		initialValues: {
@@ -168,7 +171,33 @@ export default function ProfilePage() {
 				)}
 				{currentSection === "backed" && (
 					<div className="max-w-screen-lg mx-auto my-16">
-						<img src="/assets/mock.png" alt="" />
+						{backedProjects && backedProjects.length !== 0 ? (
+							backedProjects.map((b, idx) => (
+								<div key={idx} className="border rounded-md flex h-48">
+									<img src={b.project.image} alt={b.project.title} className="aspect-video rounded-l-md" />
+									<div className="flex flex-col justify-between py-3 px-6">
+										<div className="flex flex-col">
+											<span className="text-xl font-semibold">{b.project.title}</span>
+											<span className="line-clamp-1">{b.project.subTitle}</span>
+										</div>
+										<span className="text-right text-lg font-semibold">Your invest: {b.fundAmount} OTK</span>
+										<div className="flex justify-end gap-x-3">
+											<Button className="bg-primary" onClick={() => console.log("Refund")}>
+												Refund
+											</Button>
+											<a
+												href={`https://testnet.snowtrace.io/address/${b.project.owner.metamaskAccountId}`}
+												target="_blank"
+											>
+												<Button className="border-primary text-primary">Track transactions</Button>
+											</a>
+										</div>
+									</div>
+								</div>
+							))
+						) : (
+							<span>You haven’t backed any project yet.</span>
+						)}
 					</div>
 				)}
 			</section>
