@@ -27,7 +27,7 @@ export async function listProjects(params: ListProjectParams): Promise<ResultRes
 
 export async function getProjectById(id?: string): Promise<ResultResponse<Project>> {
 	const { data } = await api.get<ResultResponse<Project>>(`/api/projects/${id}`);
-	const project = data.result.data[i];
+	const project = data.result;
 	const projectOnContract = await crowdfundingContract.methods.getProject(project.projectContractId).call();
 	project.currentFunding = projectOnContract.currentFunding.toString();
 	project.targetFunding = projectOnContract.targetFunding.toString();
