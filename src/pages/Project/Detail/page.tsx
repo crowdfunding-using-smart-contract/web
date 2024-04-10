@@ -13,6 +13,7 @@ import { GoStarFill } from "react-icons/go";
 import useAuthStore from "@/store/useAuthStore";
 import { Project } from "@/types/project";
 import { motion } from "framer-motion";
+import { contributeToProject } from "@/services/api/project.api";
 
 export default function ProjectDetail() {
 	const { projectId } = useParams();
@@ -27,6 +28,16 @@ export default function ProjectDetail() {
 	function formatDate(date: string) {
 		return dayjs(date).from(dayjs(), true);
 	}
+	const handleContribute = async () => {
+		try {
+			if (projectId !== undefined) {
+				await contributeToProject(parseFloat(projectId), 500);
+			}
+			alert("Contribution successful!");
+		} catch (error) {
+			alert(`Error: ${(error as Error).message}`);
+		}
+	};
 
 	useEffect(() => {
 		async function verifyRating() {
@@ -105,7 +116,7 @@ export default function ProjectDetail() {
 						</span>
 						<span className="font-medium text-2xl">{formatDate(project.endDate)} left</span>
 					</div>
-					<Button size={"lg"} className="bg-primary">
+					<Button size={"lg"} className="bg-primary" onClick={handleContribute}>
 						Back this project
 					</Button>
 				</div>

@@ -16,12 +16,7 @@ export async function listProjects(params: ListProjectParams): Promise<ResultRes
 	const { data } = await api.get("/api/projects", { params });
 
 	const dataOnContract: bigint[] = await crowdfundingContract.methods.getAllProjects().call();
-
-	for (let i = 0; i < dataOnContract.length; i++) {
-		const project_id = Number(dataOnContract[i]);
-		const projectOnContract = await crowdfundingContract.methods.getProject(project_id).call();
-		console.log(projectOnContract);
-	}
+	console.log(dataOnContract);
 
 	return data;
 }
@@ -131,3 +126,47 @@ export async function rateProject(projectId: string, rating: number): Promise<Re
 
 	return data;
 }
+
+export async function contributeToProject(projectId: number, amount: number): Promise<void> {
+	if (typeof window.ethereum === "undefined") {
+		throw new Error("Ethereum wallet is not connected");
+	}
+
+	const web3 = new Web3(window.ethereum);
+	const accounts = await web3.eth.getAccounts();
+
+	if (accounts.length === 0) throw new Error("No accounts found");
+
+	const contract = new web3.eth.Contract(crowdfundingAbi, crowdfundingAddress);
+
+	const amountInWei = web3.utils.toWei(amount.toString(), "ether");
+
+	try {
+		await contract.methods.contribute(projectId, amountInWei).send({ from: accounts[0] });
+		console.log("Contribution successful");
+	} catch (error) {
+		console.error("Contribution failed", error);
+		throw error;
+	}
+}
+
+// async function refundFromProject(projectId: number): Promise<void> {
+// 	if (typeof window.ethereum === "undefined") {
+// 		throw new Error("Ethereum wallet is not connected");
+// 	}
+
+// 	const web3 = new Web3(window.ethereum);
+// 	const accounts = await web3.eth.getAccounts();
+
+// 	if (accounts.length === 0) throw new Error("No accounts found");
+
+// 	const contract = new web3.eth.Contract(crowdfundingAbi, crowdfundingAddress);
+
+// 	try {
+// 		await contract.methods.refund(projectId).send({ from: accounts[0] });
+// 		console.log("Refund successful");
+// 	} catch (error) {
+// 		console.error("Refund failed", error);
+// 		throw error;
+// 	}
+// }
