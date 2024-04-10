@@ -31,7 +31,7 @@ export default function ProjectDetail() {
 	const handleContribute = async () => {
 		try {
 			if (projectId !== undefined) {
-				await contributeToProject(parseFloat(projectId), 500);
+				await contributeToProject(parseFloat(projectId), 1);
 			}
 			alert("Contribution successful!");
 		} catch (error) {
