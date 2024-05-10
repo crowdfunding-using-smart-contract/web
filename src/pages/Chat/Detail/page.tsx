@@ -1,5 +1,5 @@
 import { MessageItem } from "@/components";
-import { getCookie, setCookie } from "@/libs/cookie";
+import { getItem, setItem } from "@/libs/localStorage";
 import { renewAccessToken } from "@/services/api/auth.api";
 import { getOrCreateChannel, sendMessage } from "@/services/api/channel";
 import useAuthStore from "@/store/useAuthStore";
@@ -17,7 +17,7 @@ export default function ChatDetailPage() {
 	const { channels } = useChatStore();
 	const channel = channels.find((c) => c.receiver.id === roomId);
 	const receiver = channel?.receiver;
-	const webSocketUrl = `ws://localhost:3000/ws?token=${getCookie("access_token")}`;
+	const webSocketUrl = `ws://localhost:3000/ws?token=${getItem("access_token")}`;
 	const { readyState, sendJsonMessage, lastMessage } = useWebSocket(webSocketUrl);
 	const [currentMessages, setCurrentMessages] = useState<Message[]>([]);
 
@@ -66,11 +66,11 @@ export default function ChatDetailPage() {
 	useEffect(() => {
 		async function retryConnectWebsocket() {
 			if (connectionStatus === "Closed") {
-				const refreshToken = getCookie("refresh_token");
+				const refreshToken = getItem("refresh_token") as string;
 				if (refreshToken) {
 					const { result } = await renewAccessToken({ refreshToken });
-					setCookie("access_token", result.accessToken);
-					setCookie("access_token_expired_at", result.accessTokenExpiredAt);
+					setItem("access_token", result.accessToken);
+					setItem("access_token_expired_at", result.accessTokenExpiredAt);
 				}
 			}
 		}

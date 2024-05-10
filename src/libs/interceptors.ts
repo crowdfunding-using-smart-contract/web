@@ -1,6 +1,6 @@
 import { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
 import { camelizeKeys, decamelizeKeys } from "humps";
-import { getCookie, setCookie } from "./cookie";
+import { getItem, setItem } from "./localStorage";
 import { renewAccessToken } from "@/services/api/auth.api";
 import { api } from "./api";
 
@@ -10,7 +10,7 @@ export interface ConsoleError {
 }
 
 export const requestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-	const accessToken = getCookie("access_token");
+	const accessToken = getItem("access_token");
 
 	if (accessToken) {
 		config.headers.set("Authorization", `Bearer ${accessToken}`);
@@ -41,15 +41,15 @@ export const errorInterceptor = async (error: AxiosError): Promise<void> => {
 	}
 
 	if (error.response?.status === 401) {
-		const refreshToken = getCookie("refresh_token");
+		const refreshToken = getItem("refresh_token") as string;
 		if (!refreshToken) {
 			return await Promise.reject(error);
 		}
 
 		try {
 			const res = await renewAccessToken({ refreshToken });
-			setCookie("access_token", res.result.accessToken);
-			setCookie("access_token_expired_at", res.result.accessTokenExpiredAt);
+			setItem("access_token", res.result.accessToken);
+			setItem("access_token_expired_at", res.result.accessTokenExpiredAt);
 
 			originalRequest.headers.Authorization = `Bearer ${res.result.accessToken}`;
 

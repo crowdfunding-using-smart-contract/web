@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { logger } from "./logger";
 import { RegisterPayload } from "@/types/auth";
 import { register, sendVerifyEmail } from "@/services/api/auth.api";
-import { setCookie } from "@/libs/cookie";
+import { setItem } from "@/libs/localStorage";
 
 export type RegisterActionType = "authentication" | "privacyProtection" | "personalInformation" | "verifyEmail";
 
@@ -50,11 +50,11 @@ const useRegisterStore = create<RegisterStore>()(
 					const res = await register(payload);
 					if (res.statusCode === 201) {
 						set(() => ({ action: "verifyEmail" }));
-						setCookie("session_id", res.result.sessionId);
-						setCookie("access_token", res.result.accessToken);
-						setCookie("access_token_expired_at", res.result.accessTokenExpiredAt);
-						setCookie("refresh_token", res.result.refreshToken);
-						setCookie("refresh_token_expired_at", res.result.refreshTokenExpiredAt);
+						setItem("session_id", res.result.sessionId);
+						setItem("access_token", res.result.accessToken);
+						setItem("access_token_expired_at", res.result.accessTokenExpiredAt);
+						setItem("refresh_token", res.result.refreshToken);
+						setItem("refresh_token_expired_at", res.result.refreshTokenExpiredAt);
 					}
 				} catch (error) {
 					console.error("Failed to registration: ", error);

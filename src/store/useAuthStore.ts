@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import { logger } from "./logger";
-import { getItem, setItem } from "@/libs/localStorage";
+import { getItem, setItem, removeItem } from "@/libs/localStorage";
 import { UpdateUserPayload, User } from "@/types/user";
 import { getCurrentUser, updateUserById } from "@/services/api/user.api";
 import { LoginPayload } from "@/types/auth";
 import { login } from "@/services/api/auth.api";
-import { removeCookie, setCookie } from "@/libs/cookie";
 
 type AuthState = {
 	isAuthenticated: boolean;
@@ -43,21 +42,21 @@ const useAuthStore = create<AuthStore>()(
 				if (res.statusCode === 200) {
 					get().setIsAuthenticated(true);
 					get().setUser(res.result.user);
-					setCookie("session_id", res.result.sessionId);
-					setCookie("access_token", res.result.accessToken);
-					setCookie("access_token_expired_at", res.result.accessTokenExpiredAt);
-					setCookie("refresh_token", res.result.refreshToken);
-					setCookie("refresh_token_expired_at", res.result.refreshTokenExpiredAt);
+					setItem("session_id", res.result.sessionId);
+					setItem("access_token", res.result.accessToken);
+					setItem("access_token_expired_at", res.result.accessTokenExpiredAt);
+					setItem("refresh_token", res.result.refreshToken);
+					setItem("refresh_token_expired_at", res.result.refreshTokenExpiredAt);
 				}
 			},
 			signOut: () => {
 				get().setIsAuthenticated(false);
 				get().setUser(null);
-				removeCookie("session_id");
-				removeCookie("access_token");
-				removeCookie("access_token_expired_at");
-				removeCookie("refresh_token");
-				removeCookie("refresh_token_expired_at");
+				removeItem("session_id");
+				removeItem("access_token");
+				removeItem("access_token_expired_at");
+				removeItem("refresh_token");
+				removeItem("refresh_token_expired_at");
 			},
 			getCurrentUserAsync: async () => {
 				try {
